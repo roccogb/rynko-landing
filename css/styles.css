@@ -400,3 +400,14 @@ html{ scroll-behavior: smooth }
 .reveal.in .about .lead, .reveal.in .about .pill-list, .reveal.in .about .body{ opacity:1; transform:none }
 .reveal.in .about .pill-list{ transition-delay:.06s }
 .reveal.in .about .body{ transition-delay:.12s }
+/* FIX reveal About */
+.about.reveal .lead,
+.about.reveal .pill-list,
+.about.reveal .body{ opacity:0; transform:translateY(10px); transition:.6s ease }
+
+.about.reveal.in .lead,
+.about.reveal.in .pill-list,
+.about.reveal.in .body{ opacity:1; transform:none }
+
+.about.reveal.in .pill-list{ transition-delay:.06s }
+.about.reveal.in .body{ transition-delay:.12s }
