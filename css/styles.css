@@ -497,3 +497,56 @@ html{ scroll-behavior: smooth }
 
 /* ===== Testimonio: más aire arriba/abajo ===== */
 .testimonial.section blockquote{ margin-top:6px }
+/* ===== Ritmo global ===== */
+:root{
+  --section-pad: clamp(96px, 12vw, 168px);
+  --section-gap: clamp(18px, 3vw, 28px);
+}
+.section{ padding-block: var(--section-pad); position:relative; scroll-margin-top:96px; }
+.section .wrap{ width:min(1100px,94%); margin:0 auto }
+
+/* separador sutil arriba y abajo */
+.section::before,.section::after{
+  content:""; position:absolute; left:0; right:0; height:72px; pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,.07), transparent);
+  opacity:.12;
+}
+.section::after{ top:auto; bottom:0; transform:rotate(180deg) }
+
+/* títulos tipo hero */
+.section-title{
+  font-size: clamp(30px, 5.6vw, 52px);
+  line-height:1.05; margin:0 0 8px;
+  background:linear-gradient(90deg,var(--text) 0%, var(--accent) 55%, var(--text) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  background-size:200% 100%; animation:gradientShift 12s linear infinite;
+}
+.section-intro{ color:var(--muted); margin:6px 0 22px }
+.hr-soft{ height:1px; width:100%; background:linear-gradient(90deg,transparent, rgba(255,255,255,.12), transparent); margin:14px 0 }
+
+/* ===== Resultados (ligero ajuste de aire si querés) ===== */
+.results.section .kpis{ gap:28px }
+.results.section .kpis .num{ font-size: clamp(34px,5.5vw,60px) }
+
+/* ===== “Qué cambia…” limpio con cabecera ===== */
+.deltas.section .deltas-grid{ display:grid; grid-template-columns: 1fr auto 1fr; gap:14px 22px; align-items:center; }
+.deltas.section .head{ display:contents }
+.deltas.section .cell{ padding:12px 0; border-bottom:1px solid rgba(255,255,255,.10) }
+.deltas.section .before{ color:#d4d4d8 }
+.deltas.section .after{ color:#fafafa; font-weight:800 }
+.deltas.section .arrow{ text-align:center; opacity:.85 }
+.deltas.section .row:hover .cell{ background:linear-gradient(90deg, rgba(255,255,255,.03), transparent) }
+@media (max-width:900px){
+  .deltas.section .deltas-grid{ grid-template-columns:1fr }
+  .deltas.section .head, .deltas.section .arrow{ display:none }
+}
+
+/* ===== Cluster para mini-secciones juntas ===== */
+.cluster.section{ padding-block: calc(var(--section-pad) * .65); }
+.cluster .grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--section-gap); }
+@media (max-width:900px){ .cluster .grid{ grid-template-columns:1fr } }
+.panel{
+  border-radius:16px; border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+  padding:18px 20px;
+}
