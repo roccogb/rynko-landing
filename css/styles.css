@@ -360,3 +360,43 @@ html{ scroll-behavior: smooth }
 }
 .faq .qa.open .a{ opacity:1; transform:none; padding:0 8px 14px }
 .faq .qa.open .chev{ transform: rotate(180deg) }
+/* ===== FAQ Wide ===== */
+.faq{padding-top:34px}
+.faq-kicker{display:flex;justify-content:center;gap:8px;color:var(--muted);margin-bottom:6px}
+.faq-kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.faq-title{font-size:clamp(34px,6vw,56px);text-align:center;margin:0}
+.faq-sub{color:var(--muted);text-align:center;margin:8px 0 18px}
+.faq-wide{width:min(1100px,94%);margin:14px auto 0}
+.fqi{border-bottom:1px solid rgba(255,255,255,.08); padding:0}
+.fqi > summary{
+  list-style:none; cursor:pointer; position:relative;
+  padding:22px 16px; font-size:18px; outline:none;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.fqi > summary::-webkit-details-marker{display:none}
+.fqi .chev{
+  width:18px;height:18px;border:2px solid rgba(255,255,255,.7);
+  border-left:0;border-top:0; transform:rotate(45deg); transition:transform .25s ease, opacity .25s ease; opacity:.85
+}
+.fqi[open] .chev{ transform:rotate(-135deg); opacity:1 }
+.fqi .ans{
+  max-height:0; overflow:hidden; opacity:0; transform:translateY(6px);
+  transition:max-height .38s ease, opacity .28s ease, transform .28s ease;
+  padding:0 16px 0; color:var(--muted)
+}
+.fqi[open] .ans{ max-height:300px; opacity:1; transform:none; padding-bottom:16px }
+.fqi:hover{background:linear-gradient(90deg,rgba(255,255,255,.02),transparent)}
+/* ===== About ===== */
+.about-title{ font-family:'Space Grotesk', system-ui, sans-serif; 
+  font-size:clamp(32px,5.5vw,52px); letter-spacing:.01em; margin:0 0 4px }
+.about .lead{ font-size:clamp(18px,2.2vw,20px); color:#eaeaf0; margin:6px 0 12px }
+.pill-list{ list-style:none; padding:0; margin:0 0 12px; display:flex; gap:8px; flex-wrap:wrap }
+.pill-list li{ padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02)); font-size:14px }
+.about .body{ color:var(--muted) }
+
+/* stagger reveal inside about */
+.about .lead, .about .pill-list, .about .body{ opacity:0; transform:translateY(10px); transition:.6s ease }
+.reveal.in .about .lead, .reveal.in .about .pill-list, .reveal.in .about .body{ opacity:1; transform:none }
+.reveal.in .about .pill-list{ transition-delay:.06s }
+.reveal.in .about .body{ transition-delay:.12s }

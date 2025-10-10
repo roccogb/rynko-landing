@@ -203,3 +203,17 @@ tick();
     });
   });
 })();
+// FAQ: open first item and smooth height (idempotent)
+(function(){
+  if(window.__faq_init) return; window.__faq_init = true;
+  const items = Array.from(document.querySelectorAll('.faq .fqi'));
+  if(items[0]) items[0].setAttribute('open','');
+  // smooth toggle
+  items.forEach(d=>{
+    const ans = d.querySelector('.ans');
+    d.addEventListener('toggle', ()=>{
+      if(d.open){ ans.style.maxHeight = ans.scrollHeight+'px'; setTimeout(()=> ans.style.maxHeight='', 300); }
+      else { ans.style.maxHeight = ans.scrollHeight+'px'; requestAnimationFrame(()=> ans.style.maxHeight='0px'); }
+    });
+  });
+})();
