@@ -131,3 +131,60 @@ tick();
 
   items.forEach(el => io.observe(el));
 })();
+// ======= Before/After slider logic =======
+(function(){
+  const track = document.querySelector('.ba-track');
+  if(!track) return;
+
+  const after = track.querySelector('.ba-after');
+  const divider = track.querySelector('.ba-divider');
+  const handle = track.querySelector('.ba-handle');
+
+  let dragging = false;
+
+  function setPos(px){ // px 0..1
+    px = Math.max(0.02, Math.min(0.98, px));
+    const percent = (px*100).toFixed(2) + '%';
+    after.style.clipPath = inset(0 0 0 );
+    divider.style.left = percent;
+    handle.style.left = percent;
+  }
+
+  function fromEvent(e){
+    const rect = track.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    setPos(x / rect.width);
+  }
+
+  handle.addEventListener('pointerdown', ()=> dragging = true);
+  window.addEventListener('pointerup', ()=> dragging = false);
+  window.addEventListener('pointermove', (e)=> dragging && fromEvent(e));
+  track.addEventListener('click', fromEvent);
+
+// init at 50%
+  setPos(0.5);
+})();
+
+// ======= KPIs count up on reveal =======
+(function(){
+  const nums = Array.from(document.querySelectorAll('.kpis .num'));
+  if(!nums.length) return;
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const el = e.target; const to = parseInt(el.dataset.to || '0', 10);
+      let cur = 0; const dur = 1000; const t0 = performance.now();
+      function step(t){
+        const k = Math.min(1, (t - t0) / dur);
+        cur = Math.round(to * (0.5 - 0.5*Math.cos(Math.PI*k))); // easeOutSine
+        el.textContent = cur;
+        if(k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      io.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+
+  nums.forEach(n => io.observe(n));
+})();

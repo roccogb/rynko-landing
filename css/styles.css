@@ -254,3 +254,62 @@ html{ scroll-behavior: smooth }
 @media (max-width: 640px){
   .cards.six{ grid-template-columns: 1fr }
 }
+/* ===== Impact section ===== */
+.overline{display:flex;gap:8px;align-items:center;color:var(--muted);margin:0 0 6px}
+.overline .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+.center{text-align:center}
+.strip.impact .sub{max-width:760px;margin:0 auto 26px;color:var(--muted)}
+
+.impact-grid{
+  display:grid; grid-template-columns: 2fr 1fr; gap:18px;
+}
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.10); border-radius:var(--radius); padding:16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+
+/* Before/After slider */
+.ba{padding:0; overflow:hidden}
+.ba-track{position:relative; width:100%; aspect-ratio: 16/9; border-radius:var(--radius); background:#0e0e12; overflow:hidden}
+.ba-track img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter: contrast(.98) brightness(.95)}
+.ba-before{opacity:.9}
+.ba-after{clip-path: inset(0 0 0 50%)} /* visible desde la mitad hacia la derecha */
+
+/* placeholder si faltan imágenes */
+.ba-track img:not([src]), .ba-track img[src=""], .ba-track img[src*="before.png"]:not([complete]){ background: radial-gradient(200px 140px at 20% 60%, rgba(185,198,255,.2), transparent 60%), #0e0e12 }
+.ba-track img[src*="after.png"]:not([complete]){ background: radial-gradient(200px 140px at 80% 40%, rgba(255,255,255,.15), transparent 60%), #0e0e12 }
+
+.ba-mask{position:absolute; inset:0; background: linear-gradient(180deg, rgba(0,0,0,.2), transparent 35%, transparent 65%, rgba(0,0,0,.2)); pointer-events:none}
+.ba-divider{position:absolute; top:0; bottom:0; width:2px; left:50%; transform:translateX(-1px); background: rgba(255,255,255,.7)}
+.ba-handle{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); 
+  width:36px; height:36px; border-radius:999px; border:1px solid rgba(255,255,255,.5);
+  background: #0f0f13; display:grid; place-items:center; cursor:ew-resize;
+  box-shadow: 0 10px 20px rgba(0,0,0,.35);
+}
+.ba-handle span{display:block; width:3px; height:14px; background:#fff; opacity:.8; margin:0 1px}
+.ba-label{position:absolute; top:10px; padding:6px 10px; border-radius:999px; font-weight:700; font-size:14px; color:#fff;
+  background: rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.1)}
+.ba-left{left:12px}
+.ba-right{right:12px}
+
+/* benefits stack */
+.benefits{display:grid; gap:18px}
+.benefits .card{min-height: calc(50% - 9px); display:flex; flex-direction:column; justify-content:center}
+
+/* KPIs */
+.kpis{list-style:none; display:flex; gap:20px; justify-content:center; margin:24px 0 0; padding:0}
+.kpis .num{font-size: clamp(28px, 4.5vw, 44px); font-weight:800; display:block; text-align:center; 
+  background:linear-gradient(90deg,var(--text) 0%, var(--accent) 55%, var(--text) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent; background-size:200% 100%; animation: gradientShift 12s linear infinite}
+.kpis small{display:block; color:var(--muted); text-align:center}
+
+/* responsive */
+@media (max-width: 1000px){
+  .impact-grid{ grid-template-columns: 1fr; }
+  .benefits{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px){
+  .benefits{ grid-template-columns: 1fr; }
+}
