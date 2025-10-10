@@ -341,3 +341,22 @@ html{ scroll-behavior: smooth }
   .deltas .deltas-list li{ grid-template-columns:1fr; gap:6px }
   .deltas .arr{ display:none }
 }
+/* ===== FAQ ===== */
+.faq .overline{display:flex;gap:8px;align-items:center;justify-content:center;color:var(--muted);margin:0 0 6px}
+.faq .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+.faq .faq-list{width:min(1000px,94%);margin:12px auto 0}
+.faq .qa{border-bottom:1px solid rgba(255,255,255,.08)}
+.faq .q{
+  width:100%; text-align:left; padding:18px 8px; background:transparent; color:#fff; font-size:18px;
+  display:flex; align-items:center; justify-content:space-between; gap:14px; border:0; cursor:pointer;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.faq .q:hover{opacity:.95}
+.faq .chev{display:inline-block; transition: transform .25s ease; opacity:.85}
+.faq .a{
+  max-height:0; overflow:hidden; opacity:0; transform:translateY(6px);
+  transition: max-height .38s ease, opacity .28s ease, transform .28s ease;
+  padding:0 8px 0; color:var(--muted);
+}
+.faq .qa.open .a{ opacity:1; transform:none; padding:0 8px 14px }
+.faq .qa.open .chev{ transform: rotate(180deg) }

@@ -178,3 +178,28 @@ tick();
   }, { threshold: 0.5 });
   nums.forEach(n=>io.observe(n));
 })();
+// FAQ accordion (idempotente)
+(function(){
+  if (window.__rynko_faq) return; window.__rynko_faq = true;
+  const rows = Array.from(document.querySelectorAll('.faq .qa'));
+  function setOpen(row, open){
+    const btn = row.querySelector('.q');
+    const panel = row.querySelector('.a');
+    row.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+  }
+  rows.forEach(row=>{
+    const btn = row.querySelector('.q');
+    setOpen(row, false);
+    btn.addEventListener('click', ()=>{
+      const willOpen = !row.classList.contains('open');
+      rows.forEach(r => r!==row && setOpen(r, false));
+      setOpen(row, willOpen);
+    });
+    btn.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowDown'){ e.preventDefault(); rows[(rows.indexOf(row)+1)%rows.length].querySelector('.q').focus(); }
+      if(e.key==='ArrowUp'){ e.preventDefault(); rows[(rows.indexOf(row)-1+rows.length)%rows.length].querySelector('.q').focus(); }
+    });
+  });
+})();
