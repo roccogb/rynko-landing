@@ -20,7 +20,7 @@ function resize() {
   canvas.style.height = innerHeight + "px";
 
   dots.length = 0;
-  const count = Math.floor((innerWidth * innerHeight) / 7000); // densidad
+  const count = Math.floor((innerWidth * innerHeight) / 14000); // densidad
   for (let i = 0; i < count; i++) {
     const baseA = Math.random() * 0.4 + 0.45; // 0.45–0.85
     dots.push({
@@ -56,11 +56,11 @@ function tick() {
 
   ctx.clearRect(0, 0, W, H);
   ctx.save();
-  if (!reduce) ctx.translate(-px * 40 * DPR, -py * 40 * DPR);
+  if (!reduce) ctx.translate(-px * 25 * DPR, -py * 25 * DPR);
 
   ctx.fillStyle = "#ffffff";
   ctx.shadowColor = "#ffffff";
-  ctx.shadowBlur = 10 * DPR;
+  ctx.shadowBlur = 6 * DPR;
 
   for (const d of dots) {
     d.x += d.speedX;
@@ -85,3 +85,5 @@ function tick() {
 tick();
 
 // document.documentElement.style.setProperty("--accent", "#ffffff"); // título full B/N
+
+
