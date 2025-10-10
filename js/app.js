@@ -1,15 +1,15 @@
-﻿// js/app.js (enhanced)
+﻿// js/app.js — glow dots minimal
 
 /* Año */
 document.getElementById('year').textContent = new Date().getFullYear();
 
-/* Parallax + estrellas */
+/* Parallax + glow dots */
 const grid = document.getElementById('grid');
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d', { alpha: true });
 
 let W, H, DPR;
-const stars = [];
+const dots = [];
 let mx=0,my=0, px=0, py=0;
 
 function resize(){
@@ -19,18 +19,20 @@ function resize(){
   canvas.style.width  = innerWidth + 'px';
   canvas.style.height = innerHeight + 'px';
 
-  stars.length = 0;
-  const count = Math.floor((innerWidth * innerHeight) / 5000); // MAS estrellas
+  dots.length = 0;
+  // cantidad proporcional al área; puntos más grandes y visibles
+  const count = Math.floor((innerWidth * innerHeight) / 7000);
   for(let i=0;i<count;i++){
-    const baseA = Math.random()*0.5 + 0.35;   // MAS brillo base
-    stars.push({
+    const baseA = Math.random()*0.4 + 0.45;       // 0.45–0.85
+    dots.push({
       x: Math.random()*W,
       y: Math.random()*H,
-      r: (Math.random()*1.6 + 0.6) * DPR,    // MAS tamaño
+      r: (Math.random()*1.6 + 1.0) * DPR,        // radio 1–2.6 (visibles)
       baseA,
-      phase: Math.random() * Math.PI * 2,
-      twSpeed: Math.random()*0.8 + 0.2,      // vel titileo
-      drift: Math.random()*0.4 + 0.08        // desplazamiento lateral
+      phase: Math.random()*Math.PI*2,            // fase para pulso
+      speedX: (Math.random()*0.15 + 0.05) * DPR, // deriva lenta
+      speedY: (Math.random()*0.10 - 0.05) * DPR, // leve vertical
+      tw: Math.random()*0.5 + 0.2                // velocidad de pulso
     });
   }
 }
@@ -41,7 +43,7 @@ addEventListener('resize', resize, { passive:true });
 addEventListener('pointermove', e=>{
   mx = e.clientX/innerWidth - .5;
   my = e.clientY/innerHeight - .5;
-}, { passive:true });
+},{ passive:true });
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -50,35 +52,42 @@ function tick(){
   py += (my - py)*0.08;
 
   if(!reduce){
-    const gx = px*40, gy = py*40, rot = px*1.5, sc = 1 + py*0.01;
+    const gx = px*40, gy = py*40, rot = px*1.2, sc = 1 + py*0.01;
     grid.style.transform = 	ranslate3d(px,px,0) rotate(deg) scale();
   }
 
   ctx.clearRect(0,0,W,H);
   ctx.save();
-  if(!reduce) ctx.translate(-px*50*DPR, -py*50*DPR);
+  if(!reduce) ctx.translate(-px*40*DPR, -py*40*DPR);
 
-  for(const s of stars){
-    // drift horizontal
-    s.x += s.drift;
-    if(s.x > W + 10) s.x = -10;
+  // glow global
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = '#ffffff';
+  ctx.shadowBlur = 10 * DPR;
 
-    // twinkle
-    s.phase += s.twSpeed * 0.03;
-    const tw = 0.5 + 0.5 * Math.sin(s.phase);     // 0..1
-    const alpha = s.baseA * (0.65 + 0.35*tw);     // oscila 65%..100%
-    ctx.globalAlpha = alpha;
+  for(const d of dots){
+    // drift con wrap
+    d.x += d.speedX;
+    d.y += d.speedY;
+    if(d.x > W + 20) d.x = -20;
+    if(d.x < -20)    d.x = W + 20;
+    if(d.y > H + 20) d.y = -20;
+    if(d.y < -20)    d.y = H + 20;
+
+    // pulso suave (no parpadeo fuerte)
+    d.phase += d.tw * 0.02;
+    const pulse = 0.85 + 0.15*Math.sin(d.phase); // 0.85–1.0
+    ctx.globalAlpha = d.baseA * pulse;
 
     ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-    ctx.fillStyle = '#fff';
+    ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
     ctx.fill();
   }
-  ctx.restore();
 
+  ctx.restore();
   requestAnimationFrame(tick);
 }
 tick();
 
-// // Full B/N sin azul del título:
+// // Para full B/N en el título (sin azul):
 // document.documentElement.style.setProperty('--accent', '#ffffff');
