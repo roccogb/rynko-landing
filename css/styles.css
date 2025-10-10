@@ -148,3 +148,64 @@ html{ scroll-behavior: smooth }
   opacity: 1;
   transform: none;
 }
+/* ===== Soluciones 3x2 con aura ===== */
+.strip.solutions{
+  position: relative;
+  padding-top: 24px;
+}
+.strip.solutions::before{
+  /* Aura que juega con el gradiente del H1 (usa --accent + blanco) */
+  content: "";
+  position: absolute; inset: -10% -5% auto -5%; height: 420px;
+  background:
+    radial-gradient(180px 120px at 20% 30%, rgba(185,198,255,.22), transparent 60%),
+    radial-gradient(220px 140px at 80% 40%, rgba(255,255,255,.08), transparent 60%),
+    radial-gradient(160px 100px at 50% -10%, rgba(185,198,255,.14), transparent 60%);
+  filter: blur(8px);
+  opacity: .55;
+  pointer-events: none;
+  z-index: -1;
+  animation: auraFloat 18s ease-in-out infinite alternate;
+}
+@keyframes auraFloat{
+  0%   { transform: translateY(0px) translateX(0px) }
+  100% { transform: translateY(12px) translateX(-8px) }
+}
+
+.cards.six{
+  grid-template-columns: repeat(3, 1fr);
+}
+.cards.six article{
+  min-height: 160px; /* iguala altura */
+  display: flex; flex-direction: column; justify-content: flex-start;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  position: relative; overflow: hidden;
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+.cards.six article::after{
+  /* línea superior con acento */
+  content:""; position:absolute; left:0; top:0; height:3px; width:100%;
+  background: linear-gradient(90deg, var(--text) 0%, var(--accent) 55%, var(--text) 100%);
+  opacity:.35; transform: translateY(-3px);
+  transition: transform .25s ease, opacity .25s ease;
+}
+.cards.six article:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,.18);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+}
+.cards.six article:hover::after{
+  transform: translateY(0);
+  opacity:.6;
+}
+.cards.six h3{ margin: 4px 0 6px; }
+.cards.six p{ color: var(--muted); margin: 0; }
+
+@media (max-width: 1000px){
+  .cards.six{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px){
+  .cards.six{ grid-template-columns: 1fr; }
+}
