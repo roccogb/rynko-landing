@@ -128,3 +128,23 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
 /* Grid con pulso suave (aunque no se mueva el mouse) */
 @keyframes gridPulse{0%{opacity:.95}50%{opacity:.88}100%{opacity:.95}}
 .gridlayer{ animation: gridPulse 10s ease-in-out infinite }
+/* ===== Hero ocupa la pantalla ===== */
+.hero.hero-full{
+  min-height: calc(100dvh - 120px);
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+/* Desplazamiento suave al navegar por anclas */
+html{ scroll-behavior: smooth }
+
+/* ===== Reveal on scroll ===== */
+.reveal{
+  opacity: 0;
+  transform: translateY(24px) scale(.98);
+  transition: opacity .6s ease, transform .6s ease;
+  will-change: opacity, transform;
+}
+.reveal.in{
+  opacity: 1;
+  transform: none;
+}

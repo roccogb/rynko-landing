@@ -109,3 +109,25 @@ function tick() {
 tick();
 
 // document.documentElement.style.setProperty("--accent", "#ffffff"); // título full B/N
+// ===== Scroll reveal =====
+(function(){
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = Array.from(document.querySelectorAll('.reveal'));
+
+  if (prefersReduced) {
+    // sin animaciones: mostrar todo
+    items.forEach(el => el.classList.add('in'));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target); // revelar una vez
+      }
+    }
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.2 });
+
+  items.forEach(el => io.observe(el));
+})();

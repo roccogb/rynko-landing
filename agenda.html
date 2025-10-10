@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang='es'>
+<head>
+  <meta charset='utf-8'/>
+  <meta name='viewport' content='width=device-width,initial-scale=1'/>
+  <title>Rynko — Reservar reunión</title>
+  <link rel='stylesheet' href='css/styles.css?v=agenda'/>
+  <style>
+    body{background:var(--bg);color:var(--text)}
+    .wrap{width:min(1100px,92%);margin:40px auto}
+    .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:16px}
+    .back{display:inline-block;margin:16px 0;color:var(--muted);text-decoration:none}
+    .back:hover{color:var(--text)}
+    .embed{height:780px}
+    @media (max-width:900px){ .embed{ height: 880px } }
+  </style>
+</head>
+<body>
+  <div class='gridlayer' id='grid'></div>
+  <canvas class='stars' id='stars'></canvas>
+
+  <div class='wrap'>
+    <a class='back' href='./'>&larr; Volver</a>
+    <h1 style='margin:10px 0 16px'>Reservar reunión</h1>
+    <p class='reveal in' style='color:var(--muted)'>
+      Elegí día y horario. La llamada dura 20–30 minutos.
+    </p>
+    <div class='card'>
+      <!-- ===== Calendly (reemplazá la URL por la tuya) ===== -->
+      <link href='https://assets.calendly.com/assets/external/widget.css' rel='stylesheet'>
+      <script src='https://assets.calendly.com/assets/external/widget.js' type='text/javascript' async></script>
+      <div class='embed' id='calendly'></div>
+      <script>
+        window.addEventListener('load', function(){
+          Calendly.initInlineWidget({
+            url: 'https://calendly.com/roccogb/rynko',  // TODO: cambia este enlace
+            parentElement: document.getElementById('calendly'),
+            prefill: {},
+            utm: {}
+          });
+        });
+      </script>
+
+      <!-- ===== Cal.com (alternativa) =====
+      <iframe
+        src='https://cal.com/tuusuario/rynko-30?embed=true'
+        width='100%' height='780' frameborder='0'
+        title='Agendar con Rynko'></iframe>
+      -->
+    </div>
+  </div>
+
+  <script src='js/app.js?v=agenda'></script>
+</body>
+</html>
