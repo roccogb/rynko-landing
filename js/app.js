@@ -1,4 +1,21 @@
-﻿// js/app.js — glow dots minimal (fix backticks)
+﻿// js/app.js — glow dots (ultra minimal, with config)
+
+/*** CONFIG ***/
+const CFG = {
+  DENSITY_DIV: 30000,   // MÁS grande => MENOS puntos (ej.: 30000, 40000)
+  R_MIN: 0.4,           // radio mínimo (px * DPR)
+  R_ADD: 0.6,           // aleatorio añadido: tamaño final = R_MIN + rand()*R_ADD
+  ALPHA_MIN: 0.35,      // brillo base mínimo (0..1)
+  ALPHA_ADD: 0.25,      // aleatorio añadido al brillo base
+  SHADOW_BLUR: 4,       // glow (px * DPR) — 0..6 muy sutil
+  PARALLAX: 18,         // cuánto se mueve con el mouse (px)
+  TRANSLATE: 18,        // parallax de los puntos (px)
+  TW_SPEED_MIN: 0.2,    // velocidad mínima del pulso
+  TW_SPEED_ADD: 0.2,    // variación del pulso
+  DRIFT_X: 0.08,        // velocidad horizontal base
+  DRIFT_Y: 0.04         // velocidad vertical base
+};
+/*** END CONFIG ***/
 
 /* Año */
 document.getElementById("year").textContent = new Date().getFullYear();
@@ -12,6 +29,13 @@ let W, H, DPR;
 const dots = [];
 let mx = 0, my = 0, px = 0, py = 0;
 
+function densityDiv() {
+  // menos puntos aún en pantallas chicas
+  const area = innerWidth * innerHeight;
+  if (area < 700000) return CFG.DENSITY_DIV * 1.5;  // móviles: más sparsos
+  return CFG.DENSITY_DIV;
+}
+
 function resize() {
   DPR = Math.min(2, window.devicePixelRatio || 1);
   W = (canvas.width = Math.floor(innerWidth * DPR));
@@ -20,18 +44,18 @@ function resize() {
   canvas.style.height = innerHeight + "px";
 
   dots.length = 0;
-  const count = Math.floor((innerWidth * innerHeight) / 14000); // densidad
+  const count = Math.max(30, Math.floor((innerWidth * innerHeight) / densityDiv()));
   for (let i = 0; i < count; i++) {
-    const baseA = Math.random() * 0.4 + 0.45; // 0.45–0.85
+    const baseA = Math.random() * CFG.ALPHA_ADD + CFG.ALPHA_MIN;
     dots.push({
       x: Math.random() * W,
       y: Math.random() * H,
-      r: (Math.random() * 1.6 + 1.0) * DPR,   // 1–2.6 visibilidad
+      r: (Math.random() * CFG.R_ADD + CFG.R_MIN) * DPR,
       baseA,
-      phase: Math.random() * Math.PI * 2,     // fase pulso
-      speedX: (Math.random() * 0.15 + 0.05) * DPR,
-      speedY: (Math.random() * 0.10 - 0.05) * DPR,
-      tw: Math.random() * 0.5 + 0.2            // velocidad pulso
+      phase: Math.random() * Math.PI * 2,
+      tw: Math.random() * CFG.TW_SPEED_ADD + CFG.TW_SPEED_MIN,
+      speedX: (Math.random() * CFG.DRIFT_X) * DPR,
+      speedY: (Math.random() * CFG.DRIFT_Y - CFG.DRIFT_Y / 2) * DPR
     });
   }
 }
@@ -50,17 +74,17 @@ function tick() {
   py += (my - py) * 0.08;
 
   if (!reduce) {
-    const gx = px * 40, gy = py * 40, rot = px * 1.2, sc = 1 + py * 0.01;
-    grid.style.transform = `translate3d(${gx}px, ${gy}px, 0) rotate(${rot}deg) scale(${sc})`;
+    const gx = px * CFG.PARALLAX, gy = py * CFG.PARALLAX;
+    grid.style.transform = `translate3d(${gx}px, ${gy}px, 0)`;
   }
 
   ctx.clearRect(0, 0, W, H);
   ctx.save();
-  if (!reduce) ctx.translate(-px * 25 * DPR, -py * 25 * DPR);
+  if (!reduce) ctx.translate(-px * CFG.TRANSLATE * DPR, -py * CFG.TRANSLATE * DPR);
 
   ctx.fillStyle = "#ffffff";
   ctx.shadowColor = "#ffffff";
-  ctx.shadowBlur = 6 * DPR;
+  ctx.shadowBlur = CFG.SHADOW_BLUR * DPR;
 
   for (const d of dots) {
     d.x += d.speedX;
@@ -71,7 +95,7 @@ function tick() {
     if (d.y < -20)    d.y = H + 20;
 
     d.phase += d.tw * 0.02;
-    const pulse = 0.85 + 0.15 * Math.sin(d.phase); // 0.85–1.0
+    const pulse = 0.9 + 0.1 * Math.sin(d.phase); // 0.9–1.0 muy sutil
     ctx.globalAlpha = d.baseA * pulse;
 
     ctx.beginPath();
@@ -85,5 +109,3 @@ function tick() {
 tick();
 
 // document.documentElement.style.setProperty("--accent", "#ffffff"); // título full B/N
-
-
