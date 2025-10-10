@@ -287,3 +287,36 @@ html{ scroll-behavior: smooth }
   background:linear-gradient(90deg,var(--text) 0%, var(--accent) 55%, var(--text) 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .testimonial .who{color:var(--muted);margin:10px 0 0}
+/* ===== Resultados (KPIs) ===== */
+.results .kpis{list-style:none;display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:18px 0 0;padding:0}
+.results .kpis li{min-width:200px}
+.results .kpis .num{
+  font-size:clamp(32px,5vw,56px);font-weight:800;line-height:1;display:block;text-align:center;
+  background:linear-gradient(90deg,var(--text) 0%,var(--accent) 55%,var(--text) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:gradientShift 12s linear infinite}
+.results .kpis small{display:block;text-align:center;color:var(--muted)}
+
+/* ===== Deltas comparativos ===== */
+.deltas .delta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px}
+.delta{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:14px 16px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.10);
+  transition:transform .25s ease,border-color .25s ease,background .25s ease}
+.delta:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.18)}
+.delta .before{color:#d4d4d8}
+.delta .after{color:#fafafa;font-weight:700}
+.delta .arrow{
+  font-weight:900;opacity:.85;background:linear-gradient(90deg,var(--text) 0%,var(--accent) 55%,var(--text) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:gradientShift 8s linear infinite}
+@media (max-width:900px){.deltas .delta-grid{grid-template-columns:1fr}}
+
+/* ===== Testimonio ===== */
+.testimonial{text-align:center}
+.testimonial blockquote{
+  width:min(900px,92%);margin:0 auto;padding:18px 22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.10);border-radius:14px;
+  font-size:clamp(18px,2.5vw,22px);color:#eaeaf0}
+.testimonial blockquote strong{
+  background:linear-gradient(90deg,var(--text) 0%,var(--accent) 55%,var(--text) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.testimonial .who{color:var(--muted);margin:10px 0 0}
