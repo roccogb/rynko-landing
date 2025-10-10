@@ -209,3 +209,48 @@ html{ scroll-behavior: smooth }
 @media (max-width: 640px){
   .cards.six{ grid-template-columns: 1fr; }
 }
+/* ===== Soluciones centradas + cards más grandes ===== */
+.strip.solutions{
+  width: min(1200px, 92%);     /* más ancho que el resto */
+  text-align: center;          /* centra h2 y subtítulo */
+}
+.strip.solutions h2{
+  font-size: clamp(28px, 4vw, 44px);
+  margin: 0 0 6px;
+}
+.strip.solutions .sub{
+  margin: 0 auto 26px;
+  max-width: 760px;
+  color: var(--muted);
+}
+
+/* grid 3x2 */
+.cards.six{
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.cards.six article{
+  min-height: 220px;           /* MÁS ALTO */
+  padding: 22px;               /* MÁS AIRE */
+  display:flex; flex-direction:column; justify-content:flex-start; align-items:flex-start;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.cards.six article:hover{
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,.18);
+  background: linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.03));
+  box-shadow: 0 14px 32px rgba(0,0,0,.30);
+}
+.cards.six h3{ margin: 2px 0 8px }
+.cards.six p{ margin: 0; color: var(--muted) }
+
+@media (max-width: 1100px){
+  .cards.six{ grid-template-columns: 1fr 1fr }
+}
+@media (max-width: 640px){
+  .cards.six{ grid-template-columns: 1fr }
+}
