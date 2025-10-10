@@ -320,3 +320,24 @@ html{ scroll-behavior: smooth }
   background:linear-gradient(90deg,var(--text) 0%,var(--accent) 55%,var(--text) 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .testimonial .who{color:var(--muted);margin:10px 0 0}
+/* ===== Deltas minimal (sin cards) ===== */
+.deltas .deltas-list{
+  list-style:none; margin:14px auto 0; padding:0; width:min(1000px,94%);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.deltas .deltas-list li{
+  display:grid; grid-template-columns:1fr auto 1fr; gap:14px;
+  padding:14px 2px; border-bottom:1px solid rgba(255,255,255,.08);
+}
+.deltas .from{ color:#d4d4d8 }
+.deltas .to{ color:#fafafa; font-weight:800 }
+.deltas .arr{
+  font-weight:900; letter-spacing:.02em;
+  background:linear-gradient(90deg,var(--text) 0%,var(--accent) 55%,var(--text) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation: gradientShift 10s linear infinite;
+}
+@media (max-width:780px){
+  .deltas .deltas-list li{ grid-template-columns:1fr; gap:6px }
+  .deltas .arr{ display:none }
+}
