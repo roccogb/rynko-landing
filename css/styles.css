@@ -411,3 +411,26 @@ html{ scroll-behavior: smooth }
 
 .about.reveal.in .pill-list{ transition-delay:.06s }
 .about.reveal.in .body{ transition-delay:.12s }
+
+
+/* Rotador de palabras (About) */
+.rotowords{
+  display:inline-block; position:relative;
+  background:linear-gradient(90deg,var(--text) 0%, var(--accent) 55%, var(--text) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  background-size:200% 100%; animation:gradientShift 12s linear infinite;
+  transition:opacity .35s ease, transform .35s ease;
+}
+.rotowords.fade-out{ opacity:.05; transform:translateY(6px) }
+.rotowords.fade-in{ opacity:1; transform:none }
+
+/* Reveal en About (fix) */
+.about.reveal .lead,
+.about.reveal .pill-list,
+.about.reveal .body{ opacity:0; transform:translateY(10px); transition:.6s ease }
+.about.reveal.in .lead,
+.about.reveal.in .pill-list,
+.about.reveal.in .body{ opacity:1; transform:none }
+.about.reveal.in .pill-list{ transition-delay:.06s }
+.about.reveal.in .body{ transition-delay:.12s }
+
