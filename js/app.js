@@ -1,25 +1,9 @@
-﻿:root{
-  --bg:#0a0a0b; --panel:#111114; --text:#f2f2f3; --muted:#a8a8ad; --radius:14px;
-  --accent:#b9c6ff; /* poné #ffffff si querés full B/N */
-}
-*{box-sizing:border-box} html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;overflow-x:hidden}
-.gridlayer{position:fixed;inset:0;z-index:-2;pointer-events:none;background:
-  radial-gradient(transparent 0 70%, rgba(10,10,12,.65) 70%) center/200% 200% no-repeat,
-  linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px) 0 0/80px 80px repeat,
-  linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px) 0 0/80px 80px repeat;
-transition:transform .08s linear;will-change:transform}
-canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
-/* NAV */
-.nav{width:min(1100px,92%);margin:20px auto 0;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:var
+﻿// js/app.js (enhanced)
 
-@"
-// js/app.js
-
-// set current year in footer
+/* Footer year */
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// ----- Parallax background (grid + stars) -----
+/* Parallax background (grid + twinkling stars) */
 const grid = document.getElementById('grid');
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d', { alpha: true });
@@ -36,15 +20,20 @@ function resize() {
   canvas.style.width  = innerWidth + 'px';
   canvas.style.height = innerHeight + 'px';
 
+  // rebuild stars
   stars.length = 0;
   const count = Math.floor((innerWidth * innerHeight) / 8000);
   for (let i = 0; i < count; i++) {
+    const baseA = Math.random() * 0.6 + 0.2;
     stars.push({
       x: Math.random() * W,
       y: Math.random() * H,
-      r: (Math.random() * 1.2 + 0.4) * DPR,
-      a: Math.random() * 0.6 + 0.2,
-      s: Math.random() * 0.3 + 0.05
+      r: (Math.random() * 1.2 + 0.4) * DPR, // radius
+      a: baseA,                              // base alpha
+      baseA,
+      s: Math.random() * 0.3 + 0.05,         // drift speed
+      t: Math.random() * Math.PI * 2,        // twinkle phase
+      tw: Math.random() * 0.5 + 0.15         // twinkle speed
     });
   }
 }
@@ -59,21 +48,32 @@ addEventListener('pointermove', (e) => {
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function tick() {
+  // ease cursor for smoothness (inercia)
   px += (mx - px) * 0.08;
   py += (my - py) * 0.08;
 
   if (!prefersReduced) {
     const gx = px * 40, gy = py * 40;
-    grid.style.transform = 	ranslate3d(px, px, 0);
+    const rot = px * 1.5;           // rotación mínima
+    const sc  = 1 + py * 0.01;      // scale sutil
+    grid.style.transform = \	ranslate3d(\px,\px,0) rotate(\deg) scale(\)\;
   }
 
   ctx.clearRect(0, 0, W, H);
   ctx.save();
   if (!prefersReduced) ctx.translate(-px * 50 * DPR, -py * 50 * DPR);
+
   for (const s of stars) {
+    // gentle drift + wrap
     s.x += s.s;
     if (s.x > W + 10) s.x = -10;
-    ctx.globalAlpha = s.a;
+
+    // twinkle (alpha oscilante)
+    s.t += s.tw * 0.02;
+    const twinkle = 0.6 + 0.4 * (0.5 + 0.5 * Math.sin(s.t));
+    const alpha = s.baseA * twinkle;
+
+    ctx.globalAlpha = alpha;
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     ctx.fillStyle = '#fff';
@@ -85,5 +85,5 @@ function tick() {
 }
 tick();
 
-// Optional toggles:
-// document.documentElement.style.setProperty('--accent', '#ffffff'); // full B/N
+// Optional: 100% B/N (sin azul)
+// document.documentElement.style.setProperty('--accent', '#ffffff');
