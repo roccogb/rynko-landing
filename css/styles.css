@@ -550,3 +550,24 @@ html{ scroll-behavior: smooth }
   background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
   padding:18px 20px;
 }
+/* ===== Resultados: KPIs + panel lateral ===== */
+.results.section .two{
+  display:grid; grid-template-columns: 1.4fr .9fr; gap:28px; align-items:start;
+}
+@media (max-width:900px){ .results.section .two{ grid-template-columns:1fr; gap:16px } }
+
+.results.section .kpi-block{ }
+.results.section .side.card{
+  border-radius:16px; border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+  padding:18px 20px;
+}
+.results.section .side h3{ margin:0 0 8px; font-size:18px }
+.results.section .side p{ color:var(--muted); margin:6px 0 10px }
+.results.section .side ul{ margin:0 0 12px 16px; padding:0 }
+.results.section .side li{ margin:4px 0; color:#eaeaf0 }
+.results.section .side .cta-mini{
+  display:inline-block; padding:8px 12px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.12); font-weight:700;
+}
+.results.section .side .cta-mini:hover{ background:rgba(255,255,255,.06) }
