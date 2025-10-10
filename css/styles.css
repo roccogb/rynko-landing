@@ -98,3 +98,33 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
   0% { opacity:.95 } 50% { opacity:.88 } 100% { opacity:.95 } 
 }
 .gridlayer{ animation: gridPulse 10s ease-in-out infinite; }
+/* ==== Animated headline ==== */
+.accent{
+  background: linear-gradient(90deg, var(--text) 0%, var(--accent) 50%, var(--text) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 300% 100%;
+}
+@keyframes gradientShift { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+.accent.run { animation: gradientShift 8s linear infinite; }
+.accent.run.d1 { animation-delay: .8s }
+.accent.run.d2 { animation-delay: 1.6s }
+
+/* ==== Navbar hover suave ==== */
+.menu a{
+  position:relative; transition: color .35s ease, opacity .35s ease; opacity:.9;
+}
+.menu a::after{
+  content:""; position:absolute; left:0; bottom:-6px; height:2px; width:0;
+  background:var(--text); opacity:.6; transition: width .35s cubic-bezier(.2,.7,.2,1);
+}
+.menu a:hover{ color:var(--text); opacity:1 }
+.menu a:hover::after{ width:100% }
+
+/* Botones con levitación sutil */
+.btn{ transition: transform .2s ease, filter .25s ease, border-color .25s ease }
+.btn:hover{ transform: translateY(-1px) }
+.btn:active{ transform: translateY(0) }
+
+/* Grid con pulso suave (aunque no se mueva el mouse) */
+@keyframes gridPulse{0%{opacity:.95}50%{opacity:.88}100%{opacity:.95}}
+.gridlayer{ animation: gridPulse 10s ease-in-out infinite }
