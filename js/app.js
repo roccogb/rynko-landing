@@ -217,3 +217,22 @@ tick();
     });
   });
 })();
+
+
+// Word rotator (About) — idempotente
+(function(){
+  if(window.__rynko_wordrot) return; window.__rynko_wordrot = true;
+  const el = document.querySelector('.rotowords');
+  if(!el) return;
+  const list = (el.getAttribute('data-words')||'Rynko').split(/[;,\|]/).map(s=>s.trim()).filter(Boolean);
+  if(list.length < 2) return;
+  let i = 0; const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function tick(){
+    i = (i+1) % list.length;
+    el.classList.remove('fade-in'); el.classList.add('fade-out');
+    setTimeout(()=>{ el.textContent = list[i]; el.classList.remove('fade-out'); el.classList.add('fade-in'); }, 220);
+    setTimeout(tick, reduce ? 3500 : 2200);
+  }
+  el.classList.add('fade-in');
+  setTimeout(tick, 2200);
+})();
