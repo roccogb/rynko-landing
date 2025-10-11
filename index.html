@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -7,16 +7,17 @@
   <meta name="description" content="Automatización + IA con n8n para empresas. Rynko: Rhythm. Think. Automate." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=3" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=4" />
   <link rel="icon" href="public/rynko.svg" type="image/svg+xml" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="gridlayer" id="grid"></div>
   <canvas class="stars" id="stars"></canvas>
 
+  <!-- NAV -->
   <nav class="nav">
     <a class="brand" href="#">
       <span class="mark" aria-hidden="true">
@@ -28,151 +29,154 @@
       </span>
       <span>Rynko</span>
     </a>
+
     <ul class="menu">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
       <li class="hide-mobile"><a href="#faq">FAQ</a></li>
       <li class="hide-mobile"><a href="#about">Nosotros</a></li>
     </ul>
+
     <div class="actions">
+      <!-- Switch de idioma: justo ANTES de Contacto -->
+      <div class="lang-switch nav-inline" aria-label="Language">
+        <button class="lang-btn" data-lang="es" title="Español" aria-label="Español">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+            <rect width="24" height="24" fill="#c60b1e"/>
+            <rect y="7" width="24" height="10" fill="#ffc400"/>
+          </svg>
+        </button>
+        <button class="lang-btn" data-lang="en" title="English" aria-label="English">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+            <rect width="24" height="24" fill="#012169"/>
+            <path d="M0,0 24,24 M24,0 0,24" stroke="#fff" stroke-width="5"/>
+            <path d="M0,0 24,24 M24,0 0,24" stroke="#c8102e" stroke-width="3"/>
+            <path d="M12,0 v24 M0,12 h24" stroke="#fff" stroke-width="8"/>
+            <path d="M12,0 v24 M0,12 h24" stroke="#c8102e" stroke-width="5"/>
+          </svg>
+        </button>
+      </div>
+
       <a class="btn ghost" href="#contacto">Contacto</a>
       <a class="btn primary" href="agenda.html">Reservar reunión</a>
     </div>
-    
-<div class="lang-switch nav-inline" aria-label="Language">
-  <button class="lang-btn" data-lang="es" title="Español" aria-label="Español">
-    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-      <rect width="24" height="24" fill="#c60b1e"/>
-      <rect y="7" width="24" height="10" fill="#ffc400"/>
-    </svg>
-  </button>
-  <button class="lang-btn" data-lang="en" title="English" aria-label="English">
-    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-      <rect width="24" height="24" fill="#012169"/>
-      <path d="M0,0 24,24 M24,0 0,24" stroke="#fff" stroke-width="5"/>
-      <path d="M0,0 24,24 M24,0 0,24" stroke="#c8102e" stroke-width="3"/>
-      <path d="M12,0 v24 M0,12 h24" stroke="#fff" stroke-width="8"/>
-      <path d="M12,0 v24 M0,12 h24" stroke="#c8102e" stroke-width="5"/>
-    </svg>
-  </button>
-</div></nav>
+  </nav>
 
+  <!-- HERO -->
   <header class="hero hero-full">
     <h1>
-  <span class="accent run">Rhythm</span>.
-  <span class="accent run d1">Think</span>.
-  <span class="accent run d2">Automate</span>.
-</h1>
-    <p>Automatizamos procesos con n8n + IA para ahorrar tiempo, reducir errores y escalar tu operación. Integraciones limpias, resultados medibles y mantenimiento sencillo.</p>
+      <span class="accent run">Rhythm</span>.
+      <span class="accent run d1">Think</span>.
+      <span class="accent run d2">Automate</span>.
+    </h1>
+    <p class="hero-sub">
+      Automatizamos procesos con n8n + IA para ahorrar tiempo, reducir errores y escalar tu operación.
+      Integraciones limpias, resultados medibles y mantenimiento sencillo.
+    </p>
     <div class="hero-cta">
       <a class="btn primary" href="agenda.html">Reservar reunión</a>
-      </div>
-  
-</header>
+    </div>
+  </header>
 
+  <!-- SOLUCIONES -->
   <section class="strip reveal solutions" id="solutions">
-  <h2>Soluciones</h2>
-  <p class="sub">Descubrí cómo conectamos tus herramientas con n8n + IA para ganar velocidad y control.</p>
-  <div class="cards six">
-    <article>
-      <h3>Automatización operativa</h3>
-      <p>Flujos n8n entre CRM, correo, WhatsApp, Sheets, ERP. Reportes y alertas.</p>
-    </article>
-    <article>
-      <h3>IA aplicada</h3>
-      <p>Asistentes y chatbots con contexto propio; clasificación y generación de respuestas.</p>
-    </article>
-    <article>
-      <h3>Integraciones a medida</h3>
-      <p>APIs, webhooks y conectores custom con monitoreo y versionado.</p>
-    </article>
-    <article>
-      <h3>Data & reporting</h3>
-      <p>Dashboards y resúmenes automáticos con métricas clave enviadas a tu equipo.</p>
-    </article>
-    <article>
-      <h3>Onboarding & training</h3>
-      <p>Documentación, handoff y capacitaciones para equipos comerciales y operaciones.</p>
-    </article>
-    <article>
-      <h3>Soporte y mantenimiento</h3>
-      <p>Monitoreo, alertas y mejoras continuas para asegurar disponibilidad y calidad.</p>
-    </article></div></section>
-<!-- ===== Resultados (KPIs) ===== -->
-<!-- ===== Qué cambia (minimal) ===== -->
-<!-- ===== Testimonio ===== -->
+    <h2>Soluciones</h2>
+    <p class="sub">Descubrí cómo conectamos tus herramientas con n8n + IA para ganar velocidad y control.</p>
+    <div class="cards six">
+      <article>
+        <h3>Automatización operativa</h3>
+        <p>Flujos n8n entre CRM, correo, WhatsApp, Sheets, ERP. Reportes y alertas.</p>
+      </article>
+      <article>
+        <h3>IA aplicada</h3>
+        <p>Asistentes y chatbots con contexto propio; clasificación y generación de respuestas.</p>
+      </article>
+      <article>
+        <h3>Integraciones a medida</h3>
+        <p>APIs, webhooks y conectores custom con monitoreo y versionado.</p>
+      </article>
+      <article>
+        <h3>Data & reporting</h3>
+        <p>Dashboards y resúmenes automáticos con métricas clave enviadas a tu equipo.</p>
+      </article>
+      <article>
+        <h3>Onboarding & training</h3>
+        <p>Documentación, handoff y capacitaciones para equipos comerciales y operaciones.</p>
+      </article>
+      <article>
+        <h3>Soporte y mantenimiento</h3>
+        <p>Monitoreo, alertas y mejoras continuas para asegurar disponibilidad y calidad.</p>
+      </article>
+    </div>
+  </section>
 
-<section class="strip reveal deltas section" id="cambios">
-  <div class="wrap">
-    <h2 class="section-title">Qué cambia en tu día a día</h2>
-    <p class="section-intro">Comparativo simple de tu operación antes y después.</p>
+  <!-- QUÉ CAMBIA -->
+  <section class="strip reveal deltas section" id="cambios">
+    <div class="wrap">
+      <h2 class="section-title">Qué cambia en tu día a día</h2>
+      <p class="section-intro">Comparativo simple de tu operación antes y después.</p>
 
-    <div class="deltas-grid">
-      <div class="head">
-        <div class="cell h-before">Antes</div>
-        <div class="arrow"></div>
-        <div class="cell h-after">Después</div>
-      </div>
+      <div class="deltas-grid">
+        <div class="head">
+          <div class="cell h-before">Antes</div>
+          <div class="arrow"></div>
+          <div class="cell h-after">Después</div>
+        </div>
 
-      <div class="row">
-        <div class="cell before">Asignación de tickets: Manual</div>
-        <div class="arrow">→</div>
-        <div class="cell after">Automática (reglas + IA)</div>
-      </div>
+        <div class="row">
+          <div class="cell before">Asignación de tickets: Manual</div>
+          <div class="arrow">→</div>
+          <div class="cell after">Automática (reglas + IA)</div>
+        </div>
 
-      <div class="row">
-        <div class="cell before">Reportes: Semanales</div>
-        <div class="arrow">→</div>
-        <div class="cell after">Diarios 08:00 con insights</div>
-      </div>
+        <div class="row">
+          <div class="cell before">Reportes: Semanales</div>
+          <div class="arrow">→</div>
+          <div class="cell after">Diarios 08:00 con insights</div>
+        </div>
 
-      <div class="row">
-        <div class="cell before">Captura de leads: Variada</div>
-        <div class="arrow">→</div>
-        <div class="cell after">Unificada en CRM + follow-up</div>
-      </div>
+        <div class="row">
+          <div class="cell before">Captura de leads: Variada</div>
+          <div class="arrow">→</div>
+          <div class="cell after">Unificada en CRM + follow-up</div>
+        </div>
 
-      <div class="row">
-        <div class="cell before">Respuestas: Copiar/pegar</div>
-        <div class="arrow">→</div>
-        <div class="cell after">Draft con IA + validación</div>
-      </div>
+        <div class="row">
+          <div class="cell before">Respuestas: Copiar/pegar</div>
+          <div class="arrow">→</div>
+          <div class="cell after">Draft con IA + validación</div>
+        </div>
 
-      <div class="row">
-        <div class="cell before">Errores: Descubiertos tarde</div>
-        <div class="arrow">→</div>
-        <div class="cell after">Alertas en tiempo real</div>
-      </div>
+        <div class="row">
+          <div class="cell before">Errores: Descubiertos tarde</div>
+          <div class="arrow">→</div>
+          <div class="cell after">Alertas en tiempo real</div>
+        </div>
 
-      <div class="row">
-        <div class="cell before">Integraciones: Ad-hoc</div>
-        <div class="arrow">→</div>
-        <div class="cell after">Flujos versionados y monitoreados</div>
+        <div class="row">
+          <div class="cell before">Integraciones: Ad-hoc</div>
+          <div class="arrow">→</div>
+          <div class="cell after">Flujos versionados y monitoreados</div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- KPIs dentro de About -->
-<div class="about-kpis">
-  <ul class="kpis mini">
-    <li><span class="num" data-to="65">0</span><small>% menos tareas manuales</small></li>
-    <li><span class="num" data-to="38">0</span><small>% más velocidad de respuesta</small></li>
-    <li><span class="num" data-to="98">0</span><small>% procesos monitoreados</small></li>
-    <li><span class="num" data-to="24">0</span><small>/7 alertas y reportes</small></li>
-  </ul>
-</div>
+  <!-- ABOUT + KPIs -->
+  <section class="strip reveal about section" id="about">
+    <div class="wrap">
+      <h2 class="about-title">
+        We are <span class="rotowords" data-words="Rynko;builders;automators;designers;engineers;makers">Rynko</span>
+      </h2>
 
-<section class="strip reveal about section" id="about">
-  <div class="wrap">
-    <h2 class="about-title">We are <span class="rotowords" data-words="Rynko;builders;automators;designers;engineers;makers">Rynko</span></h2>
-    <p class="lead">Un estudio boutique de <b>automatización + IA</b>. Combinamos ingeniería y diseño para construir sistemas que piensan y fluyen.</p>
-    <ul class="pill-list"><li>n8n experts</li><li>AI assistants & retrieval</li><li>Dashboards & alerts</li><li>Versioned flows</li><li>Security by design</li></ul>
+      <p class="lead">
+        Un estudio boutique de <b>automatización + IA</b>. Combinamos ingeniería y diseño para construir sistemas que piensan y fluyen.
+      </p>
 
-    <!-- KPIs dentro de About -->
-    <div class="about-kpis">
+      <ul class="pill-list">
+        <li>n8n experts</li><li>AI assistants & retrieval</li><li>Dashboards & alerts</li>
+        <li>Versioned flows</li><li>Security by design</li>
+      </ul>
+
+      <!-- KPIs (count-up) -->
       <ul class="kpis mini">
         <li><span class="num" data-to="65">0</span><small>% menos tareas manuales</small></li>
         <li><span class="num" data-to="38">0</span><small>% más velocidad de respuesta</small></li>
@@ -180,76 +184,40 @@
         <li><span class="num" data-to="24">0</span><small>/7 alertas y reportes</small></li>
       </ul>
     </div>
-  </div>
-</section>
-<section class="strip reveal faq section" id="faq">
-  <div class="faq section-kicker"><span class="dot"></span> Frequently Asked Questions</div>
-  <h2 class="faq section-title">Answer your questions</h2>
-  <p class="faq section-sub">You’ve got questions. We’ve got answers</p>
+  </section>
 
-  <div class="faq section-wide">
-    <details class="fqi" open><summary>Why you should use Rynko?<span class="chev"></span></summary>
-      <div class="ans">We connect your stack with n8n + AI to automate repetitive work, reduce errors and scale ops.</div>
-    </details>
-    <details class="fqi"><summary>Which systems do you support?<span class="chev"></span></summary>
-      <div class="ans">HubSpot, Pipedrive, Gmail, Slack, WhatsApp API/Cloud, Google Sheets, Notion, Shopify, Stripe, webhooks & more.</div>
-    </details>
-    <details class="fqi"><summary>How long until results?<span class="chev"></span></summary>
-      <div class="ans">First flow in 7–10 days. Measurable impact by day 30.</div>
-    </details>
-    <details class="fqi"><summary>Security & data?<span class="chev"></span></summary>
-      <div class="ans">Least-privilege creds, secret vaults, versioned flows, monitoring & alerts. Your data stays in your systems.</div>
-    </details>
-    <details class="fqi"><summary>Engagement model & pricing?<span class="chev"></span></summary>
-      <div class="ans">Project, retainer or hybrid. Book a call and we’ll tailor a quote to your case.</div>
-    </details>
-    <details class="fqi"><summary>Who owns flows and prompts?<span class="chev"></span></summary>
-      <div class="ans">You do. We hand over repo, docs and access.</div>
-    </details></div></section>
-<footer class="footer">
+  <!-- FAQ -->
+  <section class="strip reveal faq section" id="faq">
+    <div class="faq section-kicker"><span class="dot"></span> Frequently Asked Questions</div>
+    <h2 class="faq section-title">Answer your questions</h2>
+    <p class="faq section-sub">You’ve got questions. We’ve got answers</p>
+
+    <div class="faq section-wide">
+      <details class="fqi" open><summary>Why you should use Rynko?<span class="chev"></span></summary>
+        <div class="ans">We connect your stack with n8n + AI to automate repetitive work, reduce errors and scale ops.</div>
+      </details>
+      <details class="fqi"><summary>Which systems do you support?<span class="chev"></span></summary>
+        <div class="ans">HubSpot, Pipedrive, Gmail, Slack, WhatsApp API/Cloud, Google Sheets, Notion, Shopify, Stripe, webhooks & more.</div>
+      </details>
+      <details class="fqi"><summary>How long until results?<span class="chev"></span></summary>
+        <div class="ans">First flow in 7–10 days. Measurable impact by day 30.</div>
+      </details>
+      <details class="fqi"><summary>Security & data?<span class="chev"></span></summary>
+        <div class="ans">Least-privilege creds, secret vaults, versioned flows, monitoring & alerts. Your data stays in your systems.</div>
+      </details>
+      <details class="fqi"><summary>Engagement model & pricing?<span class="chev"></span></summary>
+        <div class="ans">Project, retainer or hybrid. Book a call and we’ll tailor a quote to your case.</div>
+      </details>
+      <details class="fqi"><summary>Who owns flows and prompts?<span class="chev"></span></summary>
+        <div class="ans">You do. We hand over repo, docs and access.</div>
+      </details>
+    </div>
+  </section>
+
+  <footer class="footer">
     <p>© <span id="year"></span> Rynko — Automation & AI</p>
   </footer>
-<script defer src="js/app.js?v=3"></script>
-  <!-- ===== Resultados (KPIs) ===== -->
-  <!-- ===== Qué cambia (deltas comparativos) ===== -->
-  <!-- ===== Testimonio ===== -->
-  </body></html>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <script defer src="js/app.js?v=4"></script>
+</body>
+</html>
