@@ -236,3 +236,142 @@ tick();
   el.classList.add('fade-in');
   setTimeout(tick, 2200);
 })();
+// i18n ES/EN (idempotente)
+(function(){
+  if(window.__rynko_i18n) return; window.__rynko_i18n = true;
+
+  const DICT = {
+    en: {
+      'nav.contacto':'Contact',
+      'cta.reservar':'Book meeting',
+      'faq.title':'Answer your questions',
+      'faq.sub':'You’ve got questions. We’ve got answers',
+      'about.title.prefix':'We are ',
+      'resultados.title':'Results in numbers',
+      'resultados.intro':'Typical impact in the first 30 days with Rynko.',
+      'cambios.title':'What changes in your day-to-day',
+      'cambios.intro':'Simple before/after comparison of your operation.',
+      'kpi.1':'% fewer manual tasks',
+      'kpi.2':'% faster response time',
+      'kpi.3':'% processes monitored',
+      'kpi.4':'/7 alerts and reports'
+    },
+    es: {
+      'nav.contacto':'Contacto',
+      'cta.reservar':'Reservar reunión',
+      'faq.title':'Answer your questions', // si tu FAQ está en inglés lo dejamos
+      'faq.sub':'You’ve got questions. We’ve got answers',
+      'about.title.prefix':'We are ',
+      'resultados.title':'Resultados en números',
+      'resultados.intro':'Impacto típico en los primeros 30 días con Rynko.',
+      'cambios.title':'Qué cambia en tu día a día',
+      'cambios.intro':'Comparativo simple de tu operación antes y después.',
+      'kpi.1':'% menos tareas manuales',
+      'kpi.2':'% más velocidad de respuesta',
+      'kpi.3':'% procesos monitoreados',
+      'kpi.4':'/7 alertas y reportes'
+    }
+  };
+
+  function setText(el, txt){ if(el) el.textContent = txt; }
+  function q(sel){ return document.querySelector(sel); }
+
+  function apply(lang){
+    document.documentElement.setAttribute('lang', lang);
+    localStorage.setItem('lang', lang);
+
+    // Navbar: Contacto (si existe)
+    const navContact = Array.from(document.querySelectorAll('nav a, header a, .nav a'))
+      .find(a => /contacto|contact/gi.test(a.textContent));
+    if(navContact) setText(navContact, DICT[lang]['nav.contacto']);
+
+    // CTAs principales
+    Array.from(document.querySelectorAll('a,button')).forEach(b=>{
+      if(/reservar reunión|book meeting/gi.test(b.textContent.trim()))
+        setText(b, DICT[lang]['cta.reservar']);
+    });
+
+    // Resultados (si están)
+    const rTitle = Array.from(document.querySelectorAll('h2')).find(h=>/resultados|results in numbers/gi.test(h.textContent));
+    if(rTitle) setText(rTitle, DICT[lang]['resultados.title']);
+    const rIntro = Array.from(document.querySelectorAll('p'))
+      .find(p=>/Impacto típico|Typical impact/gi.test(p.textContent));
+    if(rIntro) setText(rIntro, DICT[lang]['resultados.intro']);
+
+    // Cambios
+    const dTitle = Array.from(document.querySelectorAll('h2')).find(h=>/Qué cambia|What changes/gi.test(h.textContent));
+    if(dTitle) setText(dTitle, DICT[lang]['cambios.title']);
+    const dIntro = Array.from(document.querySelectorAll('p'))
+      .find(p=>/Comparativo simple|Simple before\/after/gi.test(p.textContent));
+    if(dIntro) setText(dIntro, DICT[lang]['cambios.intro']);
+
+    // KPIs labels (si tus <small> existen en el bloque de resultados)
+    const labels = Array.from(document.querySelectorAll('#resultados .kpis small, .about .kpis small'));
+    if(labels.length>=4){
+      labels[0].textContent = DICT[lang]['kpi.1'];
+      labels[1].textContent = DICT[lang]['kpi.2'];
+      labels[2].textContent = DICT[lang]['kpi.3'];
+      if(labels[3]) labels[3].textContent = DICT[lang]['kpi.4'];
+    }
+
+    // Toggle activo en UI
+    document.querySelectorAll('.lang-btn').forEach(b=>{
+      b.classList.toggle('active', b.dataset.lang===lang);
+    });
+  }
+
+  // eventos UI
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.lang-btn');
+    if(!btn) return;
+    apply(btn.dataset.lang==='en'?'en':'es');
+  });
+
+  // init
+  apply(localStorage.getItem('lang')||'es');
+})();
+// FAQ: smooth + accordion (idempotente)
+(function(){
+  if(window.__faq_fix) return; window.__faq_fix = true;
+  const items = Array.from(document.querySelectorAll('.faq .fqi'));
+  if(!items.length) return;
+
+  // abre el primero si ninguno está abierto
+  if(!items.some(d=>d.open)) items[0].open = true;
+
+  // acordeón
+  items.forEach(d=>{
+    d.addEventListener('toggle', ()=>{
+      if(d.open){
+        items.filter(x=>x!==d).forEach(x=>x.open=false);
+        const ans = d.querySelector('.ans');
+        if(ans){ ans.style.maxHeight = ans.scrollHeight+'px'; setTimeout(()=> ans.style.maxHeight='', 300); }
+      }
+    });
+  });
+})();
+// Count-up para KPIs (idempotente)
+(function(){
+  if(window.__rynko_countup) return; window.__rynko_countup = true;
+
+  const els = Array.from(document.querySelectorAll('.kpis .num'));
+  if(!els.length) return;
+
+  const IO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const el = e.target; IO.unobserve(el);
+      const to = parseFloat(el.getAttribute('data-to')||'0');
+      const dur = 1100; const start = performance.now();
+      function step(t){
+        const p = Math.min(1, (t - start)/dur);
+        const val = Math.round(to * (0.2 + 0.8*p)); // easing suave
+        el.textContent = val;
+        if(p<1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  },{ threshold:.3 });
+
+  els.forEach(el=> IO.observe(el));
+})();
