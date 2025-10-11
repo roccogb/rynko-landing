@@ -248,3 +248,29 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
   }
   .about .changes-list .arr{ display: none; }
 }
+
+*** a/css/styles.css
+--- b/css/styles.css
+@@
+ nav .lang-switch{ overflow:visible }
++
++/* ===== About: changes-text (minimal) ===== */
++.changes-text{ margin-top: 10px }
++.changes-title{
++  font-size: clamp(20px, 3.6vw, 28px);
++  margin: 4px 0 6px;
++  background: linear-gradient(90deg,var(--text) 0%, var(--accent) 55%, var(--text) 100%);
++  -webkit-background-clip:text; background-clip:text; color:transparent;
++  background-size:200% 100%; animation:gradientShift 12s linear infinite;
++}
++.changes-intro{ color: var(--muted); margin: 4px 0 10px }
++.changes-points{
++  list-style: none; margin: 0; padding: 0;
++  display: grid; gap: 6px;
++}
++.changes-points li{
++  position: relative; padding-left: 18px; color: #eaeaf0;
++}
++.changes-points li::before{
++  content: '•'; position: absolute; left: 0; top: 0; opacity: .8;
++}
