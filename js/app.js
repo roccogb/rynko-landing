@@ -228,57 +228,55 @@ tick();
   }
 
   // About: texto de cambios; ocultamos la grilla vieja si existe
-  function renderChangesText(lang){
-    const d = DICT[lang];
-    const about = $('#about .wrap, section.about .wrap');
-    if(!about) return;
+// About: texto de cambios; quita variantes viejas para evitar duplicados
+function renderChangesText(lang){
+  const d = DICT[lang];
+  const about = document.querySelector('#about .wrap, section.about .wrap');
+  if(!about) return;
 
-    const oldDeltas = document.querySelector('.deltas.section');
-    if (oldDeltas) oldDeltas.style.display = 'none';
+  // 1) Eliminar/ocultar cualquier versión previa del bloque "Qué cambia..."
+  //    (grillas, listas antiguas, headings duplicados, etc.)
+  //    -> borra contenedores legacy si existen
+  about.querySelectorAll(
+    '.deltas-grid, .deltas-list, .deltas.section, .deltas, #cambios, [data-block="deltas"]'
+  ).forEach(n => n.remove());
 
-    let blk = about.querySelector('.changes-text');
-    if(!blk){
-      blk = document.createElement('div');
-      blk.className = 'changes-text';
-      const anchor = about.querySelector('.pill-list') || about.lastElementChild;
-      (anchor && anchor.parentNode) ? anchor.parentNode.insertBefore(blk, anchor.nextSibling) : about.appendChild(blk);
-    }
-
-    blk.innerHTML = '';
-    const h = document.createElement('h3');
-    h.className = 'changes-title';
-    h.textContent = d.changes_title;
-    blk.appendChild(h);
-
-    const p = document.createElement('p');
-    p.className = 'changes-intro';
-    p.textContent = d.changes_intro;
-    blk.appendChild(p);
-
-    const ul = document.createElement('ul');
-    ul.className = 'changes-points';
-    d.changes_points.forEach(t=>{
-      const li = document.createElement('li');
-      li.textContent = t;
-      ul.appendChild(li);
-    });
-    blk.appendChild(ul);
-  }
-
-  function applyAll(){
-    const lang = langNow();
-    translateSolutions(lang);
-    translateFAQ(lang);
-    renderChangesText(lang);
-  }
-
-  applyAll();
-
-  document.addEventListener('rynko:setlang', (e)=>{
-    const l = (e.detail||'').toLowerCase();
-    if (l==='es' || l==='en'){
-      localStorage.setItem('lang', l);
-      applyAll();
+  //    -> borra headings "Qué cambia..." ya existentes fuera del bloque nuevo
+  about.querySelectorAll('h2, h3').forEach(h=>{
+    if (/qué cambia|what changes/i.test(h.textContent) && !h.closest('.changes-text')) {
+      h.remove();
     }
   });
-})();
+
+  // 2) Crear/actualizar el bloque de texto minimal
+  let blk = about.querySelector('.changes-text');
+  if(!blk){
+    blk = document.createElement('div');
+    blk.className = 'changes-text';
+    const anchor = about.querySelector('.pill-list') || about.lastElementChild;
+    (anchor && anchor.parentNode)
+      ? anchor.parentNode.insertBefore(blk, anchor.nextSibling)
+      : about.appendChild(blk);
+  }
+
+  blk.innerHTML = '';
+
+  const h = document.createElement('h3');
+  h.className = 'changes-title';
+  h.textContent = d.changes_title;
+  blk.appendChild(h);
+
+  const p = document.createElement('p');
+  p.className = 'changes-intro';
+  p.textContent = d.changes_intro;
+  blk.appendChild(p);
+
+  const ul = document.createElement('ul');
+  ul.className = 'changes-points';
+  d.changes_points.forEach(t=>{
+    const li = document.createElement('li');
+    li.textContent = t;
+    ul.appendChild(li);
+  });
+  blk.appendChild(ul);
+}
