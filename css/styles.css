@@ -595,3 +595,21 @@ html{ scroll-behavior: smooth }
 .deltas.section .row:hover .cell{
   background:linear-gradient(90deg, rgba(255,255,255,.015), transparent) !important;
 }
+/* ===== Deltas: Antes / Después (estable) ===== */
+.deltas.section .deltas-grid{
+  display:grid; grid-template-columns: 1fr auto 1fr; gap:14px 22px; align-items:center;
+}
+.deltas.section .head{ display:contents }
+.deltas.section .h-before,.deltas.section .h-after{ font-weight:800; color:#eaeaf0; opacity:.85 }
+.deltas.section .row{ display:contents }
+.deltas.section .cell{ padding:12px 0; border-bottom:1px solid rgba(255,255,255,.10) }
+.deltas.section .before{ color:#d4d4d8 }
+.deltas.section .after{ color:#fafafa; font-weight:800 }
+.deltas.section .arrow{ text-align:center; opacity:.85 }
+.deltas.section .row:hover .cell{ background:linear-gradient(90deg, rgba(255,255,255,.02), transparent) }
+
+@media (max-width:900px){
+  .deltas.section .deltas-grid{ grid-template-columns:1fr }
+  .deltas.section .head, .deltas.section .arrow{ display:none }
+  .deltas.section .cell{ border-bottom:1px solid rgba(255,255,255,.10) }
+}
