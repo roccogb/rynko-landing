@@ -229,26 +229,25 @@ tick();
 
   // About: texto de cambios; ocultamos la grilla vieja si existe
 // About: texto de cambios; quita variantes viejas para evitar duplicados
+// About: texto de cambios; quita variantes viejas para evitar duplicados
 function renderChangesText(lang){
   const d = DICT[lang];
   const about = document.querySelector('#about .wrap, section.about .wrap');
   if(!about) return;
 
   // 1) Eliminar/ocultar cualquier versión previa del bloque "Qué cambia..."
-  //    (grillas, listas antiguas, headings duplicados, etc.)
-  //    -> borra contenedores legacy si existen
   about.querySelectorAll(
     '.deltas-grid, .deltas-list, .deltas.section, .deltas, #cambios, [data-block="deltas"]'
   ).forEach(n => n.remove());
 
-  //    -> borra headings "Qué cambia..." ya existentes fuera del bloque nuevo
+  // 2) Quitar headings duplicados fuera del bloque nuevo
   about.querySelectorAll('h2, h3').forEach(h=>{
     if (/qué cambia|what changes/i.test(h.textContent) && !h.closest('.changes-text')) {
       h.remove();
     }
   });
 
-  // 2) Crear/actualizar el bloque de texto minimal
+  // 3) Crear/actualizar el bloque minimal
   let blk = about.querySelector('.changes-text');
   if(!blk){
     blk = document.createElement('div');
@@ -280,3 +279,51 @@ function renderChangesText(lang){
   });
   blk.appendChild(ul);
 }
+
+function applyAll(){
+  const lang = langNow();
+  translateSolutions(lang);
+  translateFAQ(lang);
+  renderChangesText(lang);
+}
+
+// aplicar al cargar
+applyAll();
+
+// escuchar cambios de idioma (desde la navbar)
+document.addEventListener('rynko:setlang', (e)=>{
+  const l = (e.detail||'').toLowerCase();
+  if (l==='es' || l==='en'){
+    localStorage.setItem('lang', l);
+    document.documentElement.setAttribute('lang', l);
+    applyAll();
+  }
+});
+})();  // <— CIERRE del IIFE de i18n
+
+/* Navbar flags: click -> set lang + repaint (idempotente) */
+(function () {
+  if (window.__rynko_nav_flags_ok) return; window.__rynko_nav_flags_ok = true;
+
+  function applyLang(lang) {
+    const l = (lang === 'en') ? 'en' : 'es';
+    localStorage.setItem('lang', l);
+    document.documentElement.setAttribute('lang', l);
+    // Notificar a los módulos de i18n
+    document.dispatchEvent(new CustomEvent('rynko:setlang', { detail: l }));
+    // Marcar activo
+    document.querySelectorAll('nav .lang-switch .lang-btn')
+      .forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  }
+
+  const init = (localStorage.getItem('lang') || document.documentElement.lang || 'es').toLowerCase();
+  applyLang(init);
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('nav .lang-switch .lang-btn');
+    if (!btn) return;
+    e.preventDefault(); e.stopPropagation();
+    applyLang(btn.dataset.lang);
+  }, { passive: false });
+})();
+
