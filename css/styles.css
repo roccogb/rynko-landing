@@ -138,3 +138,68 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
 .menu a:hover::after{width:100%}
 .btn{transition:transform .2s ease,filter .25s ease,border-color .25s ease}
 .btn:hover{transform:translateY(-1px)} .btn:active{transform:translateY(0)}
+
+
+/* ===== Hero ocupa TODO el alto visible (sin asomar la siguiente sección) ===== */
+.hero.hero-full{
+  /* usa small viewport unit para evitar el bug de mobile toolbars */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* un poco de aire para que no “toque” Soluciones */
+  padding-bottom: clamp(40px, 8vh, 120px);
+}
+
+/* ===== Flags minimal en navbar ===== */
+.lang-switch.nav-inline{
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-right: 10px;
+  padding: 0;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.lang-switch.nav-inline .lang-btn{
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 4px;          /* leve, por si querés un toque cuadrado */
+  background: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* sin pill ni hover de color */
+.lang-switch.nav-inline .lang-btn:hover{
+  background: transparent;
+  transform: translateY(-1px);
+}
+
+.lang-switch.nav-inline .lang-btn.active{
+  outline: none;
+}
+
+/* icono discreto en gris, activo en color */
+.lang-switch.nav-inline svg{
+  width: 16px; height: 16px; display: block;
+  opacity: .55;
+  filter: grayscale(60%);
+  transition: opacity .2s ease, filter .2s ease, transform .2s ease;
+}
+
+.lang-switch.nav-inline .lang-btn:hover svg{
+  opacity: .8;
+  filter: grayscale(30%);
+}
+
+.lang-switch.nav-inline .lang-btn.active svg{
+  opacity: 1;
+  filter: none;
+}
+
