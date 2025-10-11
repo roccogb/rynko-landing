@@ -126,7 +126,7 @@ tick();
       faq_title: 'Resuelve tus preguntas',
       faq_sub: 'Ten\u00E9s preguntas. Tenemos respuestas.',
       faq: [
-        { q:'\u00BFPOR QU\u00C9 usar Rynko?', a:'Conectamos tu stack con n8n + IA para automatizar trabajo repetitivo, reducir errores y escalar la operaci\u00F3n.' },
+        { q:'\u00BFPor que usar Rynko?', a:'Conectamos tu stack con n8n + IA para automatizar trabajo repetitivo, reducir errores y escalar la operaci\u00F3n.' },
         { q:'\u00BFQu\u00E9 sistemas soportan?', a:'HubSpot, Pipedrive, Gmail, Slack, WhatsApp API/Cloud, Google Sheets, Notion, Shopify, Stripe, webhooks y m\u00E1s.' },
         { q:'\u00BFEn cu\u00E1nto tiempo veo resultados?', a:'Primer flujo en 7–10 d\u00EDas. Impacto medible hacia el d\u00EDa 30.' },
         { q:'Seguridad y datos?', a:'Credenciales de m\u00EDnimo privilegio, vaults, flujos versionados, monitoreo y alertas. Tus datos quedan en tus sistemas.' },
