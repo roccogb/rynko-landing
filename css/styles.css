@@ -571,3 +571,27 @@ html{ scroll-behavior: smooth }
   border:1px solid rgba(255,255,255,.12); font-weight:700;
 }
 .results.section .side .cta-mini:hover{ background:rgba(255,255,255,.06) }
+/* --- HOTFIX: desactivar separadores y overlays --- */
+.section{ position:relative; z-index:0 }
+.section .wrap{ position:relative; z-index:1 }
+
+/* apaga los pseudo-separadores globalmente */
+.section::before,.section::after{ content:none !important }
+
+/* paneles/cluster más livianos, sin placas altas */
+.panel{
+  background:rgba(255,255,255,.03) !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+  border-radius:14px;
+}
+
+/* testimonial: evita fondos dobles y deja aire correcto */
+.testimonial .panel, .testimonial blockquote{
+  background:rgba(255,255,255,.03) !important;
+  box-shadow:none !important;
+}
+
+/* deltas hover muy sutil (sin bandas fuertes) */
+.deltas.section .row:hover .cell{
+  background:linear-gradient(90deg, rgba(255,255,255,.015), transparent) !important;
+}
