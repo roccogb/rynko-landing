@@ -40,7 +40,26 @@
       <a class="btn ghost" href="#contacto">Contacto</a>
       <a class="btn primary" href="agenda.html">Reservar reunión</a>
     </div>
-  </nav>
+    <div class="lang-switch nav" aria-label="Language switch">
+    <button class="lang-btn" data-lang="es" title="Español" aria-label="Español">
+      <!-- ES -->
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <rect width="24" height="24" fill="#c60b1e"/>
+        <rect y="7" width="24" height="10" fill="#ffc400"/>
+      </svg>
+    </button>
+    <button class="lang-btn" data-lang="en" title="English" aria-label="English">
+      <!-- US/UK style -->
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <rect width="24" height="24" fill="#012169"/>
+        <path d="M0,0 24,24 M24,0 0,24" stroke="#fff" stroke-width="5"/>
+        <path d="M0,0 24,24 M24,0 0,24" stroke="#c8102e" stroke-width="3"/>
+        <path d="M12,0 v24 M0,12 h24" stroke="#fff" stroke-width="8"/>
+        <path d="M12,0 v24 M0,12 h24" stroke="#c8102e" stroke-width="5"/>
+      </svg>
+    </button>
+  </div>
+</nav>
 
   <header class="hero hero-full">
     <h1>
@@ -161,6 +180,23 @@
   </ul>
 </div>
 
+<section class="strip reveal about section" id="about">
+  <div class="wrap">
+    <h2 class="about-title">We are <span class="rotowords" data-words="Rynko;builders;automators;designers;engineers;makers">Rynko</span></h2>
+    <p class="lead">Un estudio boutique de <b>automatización + IA</b>. Combinamos ingeniería y diseño para construir sistemas que piensan y fluyen.</p>
+    <ul class="pill-list"><li>n8n experts</li><li>AI assistants & retrieval</li><li>Dashboards & alerts</li><li>Versioned flows</li><li>Security by design</li></ul>
+
+    <!-- KPIs dentro de About -->
+    <div class="about-kpis">
+      <ul class="kpis mini">
+        <li><span class="num" data-to="65">0</span><small>% menos tareas manuales</small></li>
+        <li><span class="num" data-to="38">0</span><small>% más velocidad de respuesta</small></li>
+        <li><span class="num" data-to="98">0</span><small>% procesos monitoreados</small></li>
+        <li><span class="num" data-to="24">0</span><small>/7 alertas y reportes</small></li>
+      </ul>
+    </div>
+  </div>
+</section>
 <section class="strip reveal faq section" id="faq">
   <div class="faq section-kicker"><span class="dot"></span> Frequently Asked Questions</div>
   <h2 class="faq section-title">Answer your questions</h2>
@@ -193,6 +229,8 @@
   <!-- ===== Qué cambia (deltas comparativos) ===== -->
   <!-- ===== Testimonio ===== -->
   </body></html>
+
+
 
 
 

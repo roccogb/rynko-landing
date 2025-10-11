@@ -375,3 +375,97 @@ tick();
 
   els.forEach(el=> IO.observe(el));
 })();
+// i18n ES/EN (navbar + hero + sections) — idempotente
+(function(){
+  if(window.__rynko_i18n_v2) return; window.__rynko_i18n_v2 = true;
+
+  const STR = {
+    es:{
+      nav:{ solutions:'Soluciones', usecases:'Casos de uso', how:'Cómo trabajamos', pricing:'Precios', faq:'FAQ', about:'Nosotros', contact:'Contacto', book:'Reservar reunión' },
+      hero:{ sub:'Automatizamos procesos con n8n + IA para ahorrar tiempo, reducir errores y escalar tu operación. Integraciones limpias, resultados medibles y mantenimiento sencillo.' },
+      res:{ title:'Resultados en números', intro:'Impacto típico en los primeros 30 días con Rynko.' },
+      deltas:{ title:'Qué cambia en tu día a día', intro:'Comparativo simple de tu operación antes y después.' },
+      kpi:['% menos tareas manuales','% más velocidad de respuesta','% procesos monitoreados','/7 alertas y reportes']
+    },
+    en:{
+      nav:{ solutions:'Solutions', usecases:'Use cases', how:'How we work', pricing:'Pricing', faq:'FAQ', about:'About', contact:'Contact', book:'Book meeting' },
+      hero:{ sub:'We automate processes with n8n + AI to save time, reduce errors, and scale your operations. Clean integrations, measurable results, simple maintenance.' },
+      res:{ title:'Results in numbers', intro:'Typical impact in the first 30 days with Rynko.' },
+      deltas:{ title:'What changes in your day-to-day', intro:'Simple before/after comparison of your operation.' },
+      kpi:['% fewer manual tasks','% faster response time','% processes monitored','/7 alerts and reports']
+    }
+  };
+
+  function setText(el, txt){ if(el) el.textContent = txt; }
+  function qs(sel){ return document.querySelector(sel); }
+  function qsa(sel){ return Array.from(document.querySelectorAll(sel)); }
+
+  function translateNavbar(lang){
+    const map = STR[lang].nav;
+
+    // intentamos por texto o por href a secciones
+    qsa('nav a, header nav a').forEach(a=>{
+      const href = (a.getAttribute('href')||'').toLowerCase();
+      const t = a.textContent.trim().toLowerCase();
+
+      if(/soluciones|solutions/.test(t) || /#soluciones|#solutions/.test(href)) setText(a, map.solutions);
+      else if(/casos de uso|use cases/.test(t) || /#casos|#usecases/.test(href)) setText(a, map.usecases);
+      else if(/c[oó]mo trabajamos|how we work/.test(t) || /#como|#how/.test(href)) setText(a, map.how);
+      else if(/precios|pricing/.test(t) || /#precios|#pricing/.test(href)) setText(a, map.pricing);
+      else if(/faq/.test(t) || /#faq/.test(href)) setText(a, map.faq);
+      else if(/nosotros|about/.test(t) || /#about|#nosotros/.test(href)) setText(a, map.about);
+      else if(/contacto|contact/.test(t) || /#contacto|#contact/.test(href)) setText(a, map.contact);
+      // botones de reservar
+      if(/reservar|book/.test(t) && a.tagName==='A') setText(a, map.book);
+    });
+
+    qsa('button,a').forEach(b=>{
+      const t = b.textContent.trim().toLowerCase();
+      if(/reservar reuni|book meeting/.test(t)) setText(b, map.book);
+    });
+  }
+
+  function translateHero(lang){
+    // subtítulo del hero: es el <p> debajo del H1 triple
+    const heroSub = qsa('section, .hero, .intro, .wrap p').find(p =>
+      /automatizamos procesos con n8n|we automate processes with n8n/i.test(p.textContent)
+    );
+    if(heroSub) setText(heroSub, STR[lang].hero.sub);
+  }
+
+  function translateSections(lang){
+    // Resultados
+    const rTitle = qsa('h2').find(h=>/resultados en n[uú]meros|results in numbers/i.test(h.textContent));
+    if(rTitle) setText(rTitle, STR[lang].res.title);
+    const rIntro = qsa('p').find(p=>/Impacto t[ií]pico|Typical impact/i.test(p.textContent));
+    if(rIntro) setText(rIntro, STR[lang].res.intro);
+
+    // Cambios
+    const dTitle = qsa('h2').find(h=>/qu[eé] cambia|what changes/i.test(h.textContent));
+    if(dTitle) setText(dTitle, STR[lang].deltas.title);
+    const dIntro = qsa('p').find(p=>/Comparativo simple|Simple before\/after/i.test(p.textContent));
+    if(dIntro) setText(dIntro, STR[lang].deltas.intro);
+
+    // Labels KPIs (primer bloque que aparezca)
+    const labels = qsa('#resultados .kpis small, .about .kpis small, .about .kpis.mini small');
+    labels.slice(0,4).forEach((sm,i)=> sm.textContent = STR[lang].kpi[i] || sm.textContent);
+  }
+
+  function apply(lang){
+    document.documentElement.setAttribute('lang', lang);
+    localStorage.setItem('lang', lang);
+    translateNavbar(lang);
+    translateHero(lang);
+    translateSections(lang);
+    document.querySelectorAll('.lang-btn').forEach(b=> b.classList.toggle('active', b.dataset.lang===lang));
+  }
+
+  // eventos
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.lang-btn'); if(!btn) return;
+    apply(btn.dataset.lang==='en'?'en':'es');
+  });
+
+  // init
+  apply(localStorage.getItem('lang') || 'es');
+})();

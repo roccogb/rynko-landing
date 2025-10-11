@@ -636,3 +636,18 @@ html{ scroll-behavior: smooth }
 .about .kpis.mini .num{ font-size:clamp(28px,4.8vw,42px); font-weight:800 }
 .about .kpis.mini small{ color:var(--muted) }
 @media (max-width:900px){ .about .kpis.mini{ grid-template-columns:repeat(2,1fr) } }
+/* Lang switch dentro de navbar */
+.lang-switch.nav{ display:flex; gap:6px; align-items:center; margin-left:8px }
+.lang-switch.nav .lang-btn{
+  width:22px; height:22px; display:grid; place-items:center;
+  border-radius:999px; border:0; background:transparent; cursor:pointer
+}
+.lang-switch.nav .lang-btn:hover{ background:rgba(255,255,255,.10) }
+.lang-switch.nav .lang-btn.active{ outline:2px solid var(--accent); outline-offset:0 }
+.lang-switch.nav svg{ width:16px; height:16px; display:block }
+/* About KPIs: sin bullets, en grilla */
+.about .kpis.mini{ list-style:none; margin:14px 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:18px }
+.about .kpis.mini li{ list-style:none }
+.about .kpis.mini .num{ font-size:clamp(28px,4.8vw,42px); font-weight:800 }
+.about .kpis.mini small{ color:var(--muted) }
+@media (max-width:900px){ .about .kpis.mini{ grid-template-columns:repeat(2,1fr) } }
