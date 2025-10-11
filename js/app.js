@@ -493,3 +493,35 @@ tick();
   document.querySelectorAll('.lang-switch .lang-btn')
     .forEach(b=> b.classList.toggle('active', b.dataset.lang===langInit));
 })();
+// Reubica el switch de idioma antes de Contacto en la navbar
+(function(){
+  if(window.__rynko_move_flags) return; window.__rynko_move_flags = true;
+
+  function moveFlags(){
+    const nav = document.querySelector('nav');
+    if(!nav) return;
+
+    const flags = nav.querySelector('.lang-switch');
+    if(!flags) return;
+
+    // buscamos el link de Contacto/Contact (o el botón de reservar)
+    const links = Array.from(nav.querySelectorAll('a, button'));
+    const contact = links.find(a => /contacto|contact/i.test((a.textContent||'').trim()));
+
+    // si existe, insertamos las banderas justo antes de ese link
+    if(contact && contact.parentNode){
+      contact.parentNode.insertBefore(flags, contact);
+      flags.classList.add('nav-inline-fixed');
+    }
+  }
+
+  // al cargar y por si la navbar se renderiza después
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', moveFlags);
+  } else {
+    moveFlags();
+  }
+  // reintento por si frameworks mueven cosas
+  setTimeout(moveFlags, 250);
+  setTimeout(moveFlags, 800);
+})();

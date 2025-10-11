@@ -662,3 +662,25 @@ html{ scroll-behavior: smooth }
 .lang-switch.nav-inline .lang-btn:hover{ background:rgba(255,255,255,.10) }
 .lang-switch.nav-inline .lang-btn.active{ outline:2px solid var(--accent); outline-offset:0 }
 .lang-switch.nav-inline svg{ width:14px; height:14px; display:block }
+/* Flags en navbar: en línea y sin meterse en el pill derecho */
+.lang-switch.nav-inline,
+.lang-switch.nav-inline-fixed{
+  display:inline-flex;
+  gap:6px;
+  align-items:center;
+  margin: 0 10px 0 8px;   /* un poco a la izquierda del botón Contacto */
+  background:transparent; 
+  border:0;
+}
+
+.lang-switch.nav-inline-fixed .lang-btn{
+  width:22px; height:22px;
+  display:grid; place-items:center;
+  border-radius:999px; border:0; background:transparent; cursor:pointer;
+}
+.lang-switch.nav-inline-fixed .lang-btn:hover{ background:rgba(255,255,255,.10) }
+.lang-switch.nav-inline-fixed .lang-btn.active{ outline:2px solid var(--accent); outline-offset:0 }
+.lang-switch.nav-inline-fixed svg{ width:14px; height:14px; display:block }
+
+/* Por si el contenedor de CTAs tiene overflow oculto, forzamos a que no los recorte */
+nav .lang-switch{ overflow:visible }
