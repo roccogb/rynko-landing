@@ -651,3 +651,14 @@ html{ scroll-behavior: smooth }
 .about .kpis.mini .num{ font-size:clamp(28px,4.8vw,42px); font-weight:800 }
 .about .kpis.mini small{ color:var(--muted) }
 @media (max-width:900px){ .about .kpis.mini{ grid-template-columns:repeat(2,1fr) } }
+/* Lang switch en navbar (pequeño) */
+.lang-switch.nav-inline{
+  display:inline-flex; gap:6px; align-items:center; margin-left:8px; vertical-align:middle;
+}
+.lang-switch.nav-inline .lang-btn{
+  width:22px; height:22px; display:grid; place-items:center;
+  border-radius:999px; border:0; background:transparent; cursor:pointer;
+}
+.lang-switch.nav-inline .lang-btn:hover{ background:rgba(255,255,255,.10) }
+.lang-switch.nav-inline .lang-btn.active{ outline:2px solid var(--accent); outline-offset:0 }
+.lang-switch.nav-inline svg{ width:14px; height:14px; display:block }

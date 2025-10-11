@@ -469,3 +469,27 @@ tick();
   // init
   apply(localStorage.getItem('lang') || 'es');
 })();
+// Navbar flags wiring — idempotente y sin evaluators
+(function(){
+  if(window.__rynko_nav_flags) return; window.__rynko_nav_flags = true;
+
+  function applyLang(lang){
+    localStorage.setItem('lang', lang);
+    // Señales para tu i18n si existe
+    document.dispatchEvent(new CustomEvent('rynko:setlang',{detail:lang}));
+    if(typeof window.rynkoApplyLang === 'function'){ window.rynkoApplyLang(lang); return; }
+    // Si tu i18n corre al cargar leyendo localStorage:
+    location.reload();
+  }
+
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.lang-switch .lang-btn'); if(!btn) return;
+    const lang = btn.dataset.lang === 'en' ? 'en' : 'es';
+    applyLang(lang);
+  });
+
+  // pinta activo
+  const langInit = localStorage.getItem('lang') || 'es';
+  document.querySelectorAll('.lang-switch .lang-btn')
+    .forEach(b=> b.classList.toggle('active', b.dataset.lang===langInit));
+})();
