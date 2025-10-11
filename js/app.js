@@ -167,3 +167,124 @@ tick();
 
   apply(localStorage.getItem('lang')||'es');
 })();
+/* === i18n: Solutions (EN) + FAQ (ES) — non-invasive addon === */
+(function(){
+  if (window.__rynko_i18n_solutions_faq) return; window.__rynko_i18n_solutions_faq = true;
+
+  const MAP = {
+    en: {
+      solutions: {
+        title: "Solutions",
+        sub: "Discover how we connect your tools with n8n + AI to gain speed and control.",
+        cards: [
+          {h:"Operational automation", p:"n8n flows across CRM, email, WhatsApp, Sheets, ERP. Reports & alerts."},
+          {h:"Applied AI", p:"Assistants and chatbots with private context; classification and generated replies."},
+          {h:"Custom integrations", p:"APIs, webhooks and custom connectors with monitoring and versioning."},
+          {h:"Data & reporting", p:"Dashboards and automatic summaries with key metrics sent to your team."},
+          {h:"Onboarding & training", p:"Documentation, handoff and training for sales and operations teams."},
+          {h:"Support & maintenance", p:"Monitoring, alerts and continuous improvements to ensure availability and quality."}
+        ]
+      }
+    },
+    es: {
+      faq: {
+        title: "Resuelve tus preguntas",
+        sub: "Tenés preguntas. Tenemos respuestas.",
+        qa: [
+          {
+            q: "¿Por qué usar Rynko?",
+            a: "Conectamos tu stack con n8n + IA para automatizar trabajo repetitivo, reducir errores y escalar la operación."
+          },
+          {
+            q: "¿Qué sistemas soportan?",
+            a: "HubSpot, Pipedrive, Gmail, Slack, WhatsApp API/Cloud, Google Sheets, Notion, Shopify, Stripe, webhooks y más."
+          },
+          {
+            q: "¿En cuánto tiempo veo resultados?",
+            a: "Primer flujo en 7–10 días. Impacto medible para el día 30."
+          },
+          {
+            q: "¿Seguridad y datos?",
+            a: "Credenciales de mínimo privilegio, cofres de secretos, flujos versionados, monitoreo y alertas. Tus datos quedan en tus sistemas."
+          },
+          {
+            q: "¿Modelo de trabajo y precios?",
+            a: "Proyecto, retainer o híbrido. Reservá una llamada y armamos una propuesta a tu medida."
+          },
+          {
+            q: "¿Quién es dueño de los flujos y prompts?",
+            a: "Vos. Entregamos repo, documentación y accesos."
+          }
+        ]
+      }
+    }
+  };
+
+  function translateSolutions(lang){
+    // Sólo si existe la sección
+    const sec = document.querySelector('.strip.solutions');
+    if(!sec) return;
+    if(lang!=='en') return; // las copias en ES ya están en tu HTML
+
+    const h2 = sec.querySelector('h2');
+    const sub = sec.querySelector('.sub');
+    const cards = Array.from(sec.querySelectorAll('.cards.six article'));
+
+    const data = MAP.en.solutions;
+    if(h2) h2.textContent = data.title;
+    if(sub) sub.textContent = data.sub;
+
+    cards.forEach((card, i)=>{
+      const h = card.querySelector('h3');
+      const p = card.querySelector('p');
+      const item = data.cards[i];
+      if(!item) return;
+      if(h) h.textContent = item.h;
+      if(p) p.textContent = item.p;
+    });
+  }
+
+  function translateFAQ(lang){
+    const root = document.querySelector('#faq') || document.querySelector('.strip.faq');
+    if(!root) return;
+
+    // Títulos
+    const title = root.querySelector('.section-title') || root.querySelector('h2');
+    const sub = root.querySelector('.section-sub') || root.querySelector('.faq .section-sub');
+
+    if(lang === 'es'){
+      const d = MAP.es.faq;
+      if(title) title.textContent = d.title;
+      if(sub)   sub.textContent = d.sub;
+
+      // Q/A -> detalles en el orden actual
+      const details = Array.from(root.querySelectorAll('.fqi'));
+      d.qa.forEach((qa, i)=>{
+        const di = details[i];
+        if(!di) return;
+        const sum = di.querySelector('summary');
+        const chev = sum ? sum.querySelector('.chev') : null;
+        if(sum){
+          // reconstruimos el contenido del summary preservando la flecha
+          sum.innerHTML = qa.q + (chev ? ' <span class="chev"></span>' : '');
+        }
+        const ans = di.querySelector('.ans');
+        if(ans) ans.textContent = qa.a;
+      });
+    } else {
+      // si cambiás a EN, restauramos texto original del HTML (lo tenés en inglés),
+      // por eso no traducimos FAQ a EN aquí.
+    }
+  }
+
+  function apply(lang){
+    translateSolutions(lang);
+    translateFAQ(lang);
+  }
+
+  document.addEventListener('rynko:setlang', e => apply(e.detail || 'es'));
+  document.addEventListener('DOMContentLoaded', () => {
+    const lang = localStorage.getItem('lang') || document.documentElement.lang || 'es';
+    apply(lang);
+  });
+})();
