@@ -274,3 +274,13 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
 +.changes-points li::before{
 +  content: '•'; position: absolute; left: 0; top: 0; opacity: .8;
 +}
+
+/* About — bloque "Qué cambia..." en texto */
+.about .changes-text { margin-top: 10px; }
+.about .changes-title {
+  font-size: clamp(18px, 2.4vw, 22px);
+  margin: 8px 0 6px;
+}
+.about .changes-intro { color: var(--muted); margin: 0 0 8px; }
+.about .changes-points { margin: 0 0 12px 18px; padding: 0; }
+.about .changes-points li { margin: 4px 0; }
