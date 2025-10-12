@@ -452,7 +452,9 @@ tick();
   }
 
   function highlightFlag(lang) {
-    $$(".lang-switch .lang-btn").forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
+    $$(".lang-switch .lang-btn").forEach((b) =>
+      b.classList.toggle("active", b.dataset.lang === lang)
+    );
   }
 
   function applyAll() {
@@ -466,19 +468,24 @@ tick();
     renderChanges(lang);
     trFAQ(lang);
     trKPIs(lang);
-    renderFooterI18N(lang); // (reemplaza al footer viejo)
+    renderFooterI18N(lang);
     highlightFlag(lang);
   }
 
-  // Flags click
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest("nav .lang-switch .lang-btn");
-    if (!btn) return;
-    e.preventDefault();
-    setLang(btn.dataset.lang);
-  });
+  // === Flags click (bind directo, sin delegado global) ===
+  function bindFlagClicks() {
+    document.querySelectorAll(".lang-switch .lang-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setLang(btn.dataset.lang);
+      });
+    });
+  }
 
+  // Init
   document.addEventListener("rynko:setlang", applyAll);
-  document.addEventListener("DOMContentLoaded", applyAll);
-  applyAll();
-})();
+  document.addEventListener("DOMContentLoaded", () => {
+    bindFlagClicks();
+    applyAll();
+  });
