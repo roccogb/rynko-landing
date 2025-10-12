@@ -6,7 +6,9 @@ const CFG = { DENSITY_DIV: 30000, R_MIN: .4, R_ADD: .6, ALPHA_MIN: .35, ALPHA_AD
 // Año (seguro si no existe el #year)
 { const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear(); }
 
-const grid = document.getElementById('grid');
+// Dos capas de cuadrícula para parallax
+const gridHero = document.getElementById('grid-hero');
+const gridBase = document.getElementById('grid-base');
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d', { alpha:true });
 
