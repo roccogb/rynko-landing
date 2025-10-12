@@ -476,29 +476,31 @@ function renderChanges(lang){
     highlightFlag(lang);
   }
 
-  // === Flags click (bind directo, sin delegado global) ===
-  function bindFlagClicks() {
-    document.querySelectorAll(".lang-switch .lang-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setLang(btn.dataset.lang);
-      });
-    });
-  }
+ // === Flags click (directo + delegado en captura) ===
+function onFlagClick(e){
+  e.preventDefault();
+  const btn = e.currentTarget || e.target.closest(".lang-switch .lang-btn");
+  if (!btn) return;
+  setLang(btn.dataset.lang);
+}
 
-  // Init
-  document.addEventListener("rynko:setlang", applyAll);
-  document.addEventListener("DOMContentLoaded", () => {
+function bindFlagClicks() {
+  document.querySelectorAll(".lang-switch .lang-btn").forEach((btn) => {
+    btn.removeEventListener("click", onFlagClick); // por si se re-bindea
+    btn.addEventListener("click", onFlagClick);
+  });
+}
+
+// Delegado de respaldo (captura) por si algún overlay corta el burbujeo
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".lang-switch .lang-btn");
+  if (!btn) return;
+  onFlagClick(e);
+}, true); // <-- captura
+
+document.addEventListener("rynko:setlang", applyAll);
+document.addEventListener("DOMContentLoaded", () => {
   bindFlagClicks();
   applyAll();
 });
-})();
 
-function setLang(l) {
-  const lang = l === "en" ? "en" : "es";
-  localStorage.setItem("lang", lang);
-  document.documentElement.setAttribute("lang", lang);
-  applyAll(); // fuerza el repaint inmediato
-  document.dispatchEvent(new CustomEvent("rynko:setlang", { detail: lang }));
-}
