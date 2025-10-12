@@ -117,7 +117,7 @@ tick();
         title: "Rynko — Ritmo. Pensar. Automatizar.",
         desc: "Automatización + IA con n8n para empresas. Rynko: Ritmo. Pensar. Automatizar.",
       },
-      nav: { solutions: "Soluciones", about: "About", faq: "FAQ", contact: "Contacto", book: "Reservar reunión" },
+      nav: { solutions: "Soluciones", about: "Nosotros", faq: "FAQ", contact: "Contacto", book: "Reservar reunión" },
       hero: {
         sub:
           "Automatizamos procesos con n8n + IA para ahorrar tiempo, reducir errores y escalar tu operación. Integraciones limpias, resultados medibles y mantenimiento sencillo.",
