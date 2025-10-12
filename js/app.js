@@ -495,3 +495,10 @@ function renderChanges(lang){
 });
 })();
 
+function setLang(l) {
+  const lang = l === "en" ? "en" : "es";
+  localStorage.setItem("lang", lang);
+  document.documentElement.setAttribute("lang", lang);
+  applyAll(); // fuerza el repaint inmediato
+  document.dispatchEvent(new CustomEvent("rynko:setlang", { detail: lang }));
+}
