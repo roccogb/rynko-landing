@@ -332,3 +332,7 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
 .gridlayer, .stars { pointer-events: none; } 
 .nav { position: sticky; top: 0; z-index: 20; }
+
+.gridlayer, .stars { pointer-events: none; }  /* que no tapen la navbar */
+.nav { position: relative; z-index: 1000; }
+.lang-switch .lang-btn { pointer-events: auto; }
