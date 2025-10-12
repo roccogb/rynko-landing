@@ -325,3 +325,10 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
   .footer-grid{ grid-template-columns: 1fr; padding: 40px 0 20px; }
   .ft-brand{ margin-bottom: 8px; }
 }
+
+/* Footer tweaks */
+.site-footer .footer-grid{ padding: 72px 0 36px; } 
+.ft-brand{ margin-top: 10px; }                     
+
+.gridlayer, .stars { pointer-events: none; } 
+.nav { position: sticky; top: 0; z-index: 20; }
