@@ -31,7 +31,7 @@ addEventListener('pointermove',e=>{ mx=e.clientX/innerWidth-.5; my=e.clientY/inn
 const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function tick(){
   px+=(mx-px)*.08; py+=(my-py)*.08;
-  if(!prefersReduce){ grid.style.transform=`translate3d(${px*CFG.PARALLAX}px,${py*CFG.PARALLAX}px,0)`; }
+  if(!prefersReduce && grid){ grid.style.transform=`translate3d(${px*CFG.PARALLAX}px,${py*CFG.PARALLAX}px,0)`; }
   ctx.clearRect(0,0,W,H); ctx.save(); if(!prefersReduce) ctx.translate(-px*CFG.TRANSLATE*DPR, -py*CFG.TRANSLATE*DPR);
   ctx.fillStyle='#fff'; ctx.shadowColor='#fff'; ctx.shadowBlur=CFG.SHADOW_BLUR*DPR;
   for (const d of dots){
@@ -167,7 +167,6 @@ tick();
         ],
       },
       kpis: ["% menos tareas manuales", "% más velocidad de respuesta", "% procesos monitoreados", "/7 alertas y reportes"],
-      footer: "© {year} Rynko — Automatización & IA",
       footerCols: {
         titles: { services: "Servicios", resources: "Recursos", legal: "Legal" },
         links: {
@@ -240,7 +239,6 @@ tick();
         ],
       },
       kpis: ["% fewer manual tasks", "% faster response", "% processes monitored", "/7 alerts & reports"],
-      footer: "© {year} Rynko — Automation & AI",
       footerCols: {
         titles: { services: "Services", resources: "Resources", legal: "Legal" },
         links: {
@@ -269,14 +267,23 @@ tick();
     const l = (localStorage.getItem("lang") || document.documentElement.lang || "es").toLowerCase();
     return l === "en" ? "en" : "es";
   }
+
+  // setLang inmediato
   function setLang(l) {
-    const lang = l === "en" ? "en" : "es";
+    const lang = (l === "en" ? "en" : "es");
     localStorage.setItem("lang", lang);
     document.documentElement.setAttribute("lang", lang);
+    try { applyAll(); } catch(e){ console.error("[i18n] applyAll error:", e); }
     document.dispatchEvent(new CustomEvent("rynko:setlang", { detail: lang }));
   }
 
   // --- NAV ---
+  function trMeta(lang) {
+    const m = TEXT[lang].meta;
+    const title = $("title"); if (title) title.textContent = m.title;
+    const desc = $('meta[name="description"]'); if (desc) desc.setAttribute("content", m.desc);
+  }
+
   function trNav(lang) {
     const d = TEXT[lang].nav;
     $$('nav .menu a[href="#solutions"]').forEach((a) => T(a, d.solutions));
@@ -293,7 +300,7 @@ tick();
     $$("header.hero .btn.primary").forEach((b) => T(b, d.cta));
   }
 
-  // --- ABOUT (title prefix + rotowords + lead + pills) ---
+  // --- ABOUT ---
   function trAbout(lang) {
     const d = TEXT[lang].about;
     const wrap = $("#about .wrap");
@@ -318,15 +325,9 @@ tick();
       const lis = $$("li", pills);
       d.pills.forEach((txt, i) => {
         if (lis[i]) lis[i].textContent = txt;
-        else {
-          const li = document.createElement("li");
-          li.textContent = txt;
-          pills.appendChild(li);
-        }
+        else { const li = document.createElement("li"); li.textContent = txt; pills.appendChild(li); }
       });
-      if (lis.length > d.pills.length) {
-        lis.slice(d.pills.length).forEach((x) => x.remove());
-      }
+      if (lis.length > d.pills.length) lis.slice(d.pills.length).forEach((x) => x.remove());
     }
   }
 
@@ -338,79 +339,53 @@ tick();
     T($("h2", sec), d.title);
     T($(".sub", sec), d.sub);
     $$(".cards.six article", sec).forEach((card, i) => {
-      const meta = d.cards[i];
-      if (!meta) return;
+      const meta = d.cards[i]; if (!meta) return;
       T($("h3", card), meta.h);
       T($("p", card), meta.p);
     });
   }
 
-  // --- CHANGES (único bloque, sin duplicados) ---
- // --- CHANGES (mismo markup que el original, sin duplicados) ---
-function renderChanges(lang){
-  const d = TEXT[lang].changes;
-  const wrap = document.querySelector('#about .wrap') || document.querySelector('section.about .wrap');
-  if(!wrap) return;
+  // --- CHANGES (mismo markup original, sin duplicados) ---
+  function renderChanges(lang){
+    const d = TEXT[lang].changes;
+    const wrap = document.querySelector('#about .wrap') || document.querySelector('section.about .wrap');
+    if(!wrap) return;
 
-  // Si existe nuestro bloque i18n, reusarlo. Si existe un bloque viejo, borrarlo.
-  const oldDupes = wrap.querySelectorAll('.changes:not([data-i18n="1"])');
-  oldDupes.forEach(n => n.remove());
+    // limpiar duplicados antiguos
+    wrap.querySelectorAll('.changes:not([data-i18n="1"])').forEach(n=>n.remove());
 
-  let blk = wrap.querySelector('.changes[data-i18n="1"]');
-  if(!blk){
-    blk = document.createElement('div');
-    blk.className = 'changes';
-    blk.setAttribute('data-i18n','1');
-    const anchor = wrap.querySelector('.pill-list') || wrap.lastElementChild;
-    (anchor && anchor.parentNode)
-      ? anchor.parentNode.insertBefore(blk, anchor.nextSibling)
-      : wrap.appendChild(blk);
+    // crear/reusar bloque
+    let blk = wrap.querySelector('.changes[data-i18n="1"]');
+    if(!blk){
+      blk = document.createElement('div');
+      blk.className = 'changes';
+      blk.setAttribute('data-i18n','1');
+      const anchor = wrap.querySelector('.pill-list') || wrap.lastElementChild;
+      (anchor && anchor.parentNode) ? anchor.parentNode.insertBefore(blk, anchor.nextSibling) : wrap.appendChild(blk);
+    }
+
+    // pintar
+    blk.innerHTML = '';
+    const h3 = document.createElement('h3'); h3.className = 'changes-title'; h3.textContent = d.title;
+    const p  = document.createElement('p');  p.className  = 'changes-intro'; p.textContent  = d.intro;
+    const ul = document.createElement('ul'); ul.className = 'changes-list';
+    d.items.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
+    blk.append(h3,p,ul);
   }
-
-  blk.innerHTML = '';
-
-  const h3 = document.createElement('h3');
-  h3.className = 'changes-title';
-  h3.textContent = d.title;
-
-  const p = document.createElement('p');
-  p.className = 'changes-intro';
-  p.textContent = d.intro;
-
-  const ul = document.createElement('ul');
-  ul.className = 'changes-list';
-  d.items.forEach(t=>{
-    const li = document.createElement('li');
-    li.textContent = t;
-    ul.appendChild(li);
-  });
-
-  blk.append(h3, p, ul);
-}
-
 
   // --- FAQ ---
   function trFAQ(lang) {
     const d = TEXT[lang].faq;
-    const root = $("#faq");
-    if (!root) return;
-    const kicker = $(".section-kicker", root);
-    if (kicker) kicker.innerHTML = `<span class="dot"></span> ${d.kicker}`;
+    const root = $("#faq"); if (!root) return;
+    const kicker = $(".section-kicker", root); if (kicker) kicker.innerHTML = `<span class="dot"></span> ${d.kicker}`;
     T($(".section-title", root), d.title);
     T($(".section-sub", root), d.sub);
     const items = $$(".fqi", root);
     d.qa.forEach((qa, i) => {
-      const di = items[i];
-      if (!di) return;
-      const sum = $("summary", di);
-      const chev = sum ? $(".chev", sum) : null;
-      if (sum) {
-        sum.innerHTML = "";
-        sum.append(document.createTextNode(qa.q));
-        if (chev) sum.appendChild(chev);
-      }
-      const ans = $(".ans", di) || $("div", di);
-      if (ans) T(ans, qa.a);
+      const di = items[i]; if (!di) return;
+      const sum = $("summary", di); const chev = sum ? $(".chev", sum) : null;
+      if (sum) { sum.innerHTML = ""; sum.append(document.createTextNode(qa.q)); if (chev) sum.appendChild(chev); }
+      const ans = $(".ans", di) || $("div", di); if (ans) T(ans, qa.a);
     });
   }
 
@@ -418,47 +393,27 @@ function renderChanges(lang){
   function trKPIs(lang) {
     const labels = TEXT[lang].kpis;
     const items = $$(".kpis.mini li");
-    items.forEach((li, i) => {
-      const small = $("small", li);
-      if (small && labels[i]) small.textContent = labels[i];
-    });
+    items.forEach((li, i) => { const small = $("small", li); if (small && labels[i]) small.textContent = labels[i]; });
   }
 
-  // --- FOOTER NUEVO (i18n) ---
+  // --- FOOTER i18n ---
   function renderFooterI18N(lang){
-    const root = document.getElementById('footer');
-    if(!root) return;
+    const root = document.getElementById('footer'); if(!root) return;
     const d = TEXT[lang].footerCols;
-
-    // títulos de columnas
     const mapTitles = {
       services: root.querySelector('.ft-col[data-col="services"] .ft-title'),
       resources: root.querySelector('.ft-col[data-col="resources"] .ft-title'),
       legal: root.querySelector('.ft-col[data-col="legal"] .ft-title')
     };
     Object.entries(mapTitles).forEach(([key, el])=>{ if(el) el.textContent = d.titles[key]; });
-
-    // tagline
-    const tag = root.querySelector('.ft-brand .ft-tag');
-    if(tag) tag.textContent = d.tagline;
-
-    // links
-    root.querySelectorAll('[data-k]').forEach(a=>{
-      const k=a.getAttribute('data-k');
-      const txt=d.links[k]; if(txt) a.textContent=txt;
-    });
-
-    // línea inferior
-    const copy = root.querySelector('.ft-copy');
-    if(copy){
-      copy.textContent = d.bottom.replace('{year}', new Date().getFullYear());
-    }
+    const tag = root.querySelector('.ft-brand .ft-tag'); if(tag) tag.textContent = d.tagline;
+    root.querySelectorAll('[data-k]').forEach(a=>{ const k=a.getAttribute('data-k'); const txt=d.links[k]; if(txt) a.textContent=txt; });
+    const copy = root.querySelector('.ft-copy'); if(copy) copy.textContent = d.bottom.replace('{year}', new Date().getFullYear());
   }
 
+  // --- UI helpers ---
   function highlightFlag(lang) {
-    $$(".lang-switch .lang-btn").forEach((b) =>
-      b.classList.toggle("active", b.dataset.lang === lang)
-    );
+    $$(".lang-switch .lang-btn").forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
   }
 
   function applyAll() {
@@ -476,31 +431,43 @@ function renderChanges(lang){
     highlightFlag(lang);
   }
 
- // === Flags click (directo + delegado en captura) ===
-function onFlagClick(e){
-  e.preventDefault();
-  const btn = e.currentTarget || e.target.closest(".lang-switch .lang-btn");
-  if (!btn) return;
-  setLang(btn.dataset.lang);
-}
+  // === Flags click (directo + respaldo en captura) ===
+  function onFlagClick(e){
+    e.preventDefault();
+    const btn = e.currentTarget || (e.target && e.target.closest(".lang-switch .lang-btn"));
+    if (!btn) return;
+    setLang(btn.dataset.lang);
+  }
 
-function bindFlagClicks() {
-  document.querySelectorAll(".lang-switch .lang-btn").forEach((btn) => {
-    btn.removeEventListener("click", onFlagClick); // por si se re-bindea
-    btn.addEventListener("click", onFlagClick);
+  function bindFlagClicks() {
+    document.querySelectorAll(".lang-switch .lang-btn").forEach((btn) => {
+      btn.removeEventListener("click", onFlagClick); // por si se re-bindea
+      btn.addEventListener("click", onFlagClick);
+    });
+  }
+
+  // Delegado de respaldo (captura) por si algún overlay corta el burbujeo
+  document.addEventListener("click", (e) => {
+    const btn = e.target && e.target.closest && e.target.closest(".lang-switch .lang-btn");
+    if (!btn) return;
+    onFlagClick(e);
+  }, true);
+
+  // Init
+  document.addEventListener("rynko:setlang", applyAll);
+  document.addEventListener("DOMContentLoaded", () => {
+    // Blindaje: que nada tape la navbar
+    const g = document.querySelector(".gridlayer");
+    const s = document.querySelector(".stars");
+    if (g) g.style.pointerEvents = "none";
+    if (s) s.style.pointerEvents = "none";
+
+    // Asegurar botones tipo button (si el HTML se olvida)
+    document.querySelectorAll('.lang-switch .lang-btn').forEach(b=>{
+      if(!b.getAttribute('type')) b.setAttribute('type','button');
+    });
+
+    bindFlagClicks();
+    applyAll();
   });
-}
-
-// Delegado de respaldo (captura) por si algún overlay corta el burbujeo
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".lang-switch .lang-btn");
-  if (!btn) return;
-  onFlagClick(e);
-}, true); // <-- captura
-
-document.addEventListener("rynko:setlang", applyAll);
-document.addEventListener("DOMContentLoaded", () => {
-  bindFlagClicks();
-  applyAll();
-});
 })();
