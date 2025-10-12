@@ -346,44 +346,48 @@ tick();
   }
 
   // --- CHANGES (único bloque, sin duplicados) ---
-  function renderChanges(lang) {
-    const d = TEXT[lang].changes;
-    const about = $("#about .wrap");
-    if (!about) return;
+ // --- CHANGES (mismo markup que el original, sin duplicados) ---
+function renderChanges(lang){
+  const d = TEXT[lang].changes;
+  const wrap = document.querySelector('#about .wrap') || document.querySelector('section.about .wrap');
+  if(!wrap) return;
 
-    // eliminar variantes previas/duplicadas fuera de #about
-    document.querySelectorAll('#cambios, .deltas.section, .deltas-grid, .deltas-list')
-      .forEach((n) => n.remove());
+  // Si existe nuestro bloque i18n, reusarlo. Si existe un bloque viejo, borrarlo.
+  const oldDupes = wrap.querySelectorAll('.changes:not([data-i18n="1"])');
+  oldDupes.forEach(n => n.remove());
 
-    let blk = about.querySelector(".changes-text");
-    if (!blk) {
-      blk = document.createElement("div");
-      blk.className = "changes-text";
-      const anchor = $(".pill-list", about) || about.lastElementChild;
-      (anchor && anchor.parentNode)
-        ? anchor.parentNode.insertBefore(blk, anchor.nextSibling)
-        : about.appendChild(blk);
-    }
-    blk.innerHTML = "";
-
-    const h = document.createElement("h3");
-    h.className = "changes-title";
-    h.textContent = d.title;
-
-    const p = document.createElement("p");
-    p.className = "changes-intro";
-    p.textContent = d.intro;
-
-    const ul = document.createElement("ul");
-    ul.className = "changes-points";
-    d.items.forEach((t) => {
-      const li = document.createElement("li");
-      li.textContent = t;
-      ul.appendChild(li);
-    });
-
-    blk.append(h, p, ul);
+  let blk = wrap.querySelector('.changes[data-i18n="1"]');
+  if(!blk){
+    blk = document.createElement('div');
+    blk.className = 'changes';
+    blk.setAttribute('data-i18n','1');
+    const anchor = wrap.querySelector('.pill-list') || wrap.lastElementChild;
+    (anchor && anchor.parentNode)
+      ? anchor.parentNode.insertBefore(blk, anchor.nextSibling)
+      : wrap.appendChild(blk);
   }
+
+  blk.innerHTML = '';
+
+  const h3 = document.createElement('h3');
+  h3.className = 'changes-title';
+  h3.textContent = d.title;
+
+  const p = document.createElement('p');
+  p.className = 'changes-intro';
+  p.textContent = d.intro;
+
+  const ul = document.createElement('ul');
+  ul.className = 'changes-list';
+  d.items.forEach(t=>{
+    const li = document.createElement('li');
+    li.textContent = t;
+    ul.appendChild(li);
+  });
+
+  blk.append(h3, p, ul);
+}
+
 
   // --- FAQ ---
   function trFAQ(lang) {
@@ -486,6 +490,8 @@ tick();
   // Init
   document.addEventListener("rynko:setlang", applyAll);
   document.addEventListener("DOMContentLoaded", () => {
-    bindFlagClicks();
-    applyAll();
-  });
+  bindFlagClicks();
+  applyAll();
+});
+})();
+
