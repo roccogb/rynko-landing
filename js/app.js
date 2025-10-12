@@ -104,172 +104,343 @@ tick();
 })();
 
 /* =========================================================
-   Rynko i18n + Flags + “Changes” (único módulo, idempotente)
+   Rynko i18n — navbar flags, hero, solutions, about, changes,
+   FAQ, KPIs, footer (único bloque, sin duplicados)
    ========================================================= */
-(function(){
-  if (window.__rynko_i18n_unico) return; window.__rynko_i18n_unico = true;
+(function () {
+  if (window.__rynko_i18n_full) return; 
+  window.__rynko_i18n_full = true;
 
-  // ---- Diccionario ----
   const TEXT = {
-    es:{
-      solutions:{ title:'Soluciones',
-        sub:'Descubrí cómo conectamos tus herramientas con n8n + IA para ganar velocidad y control.',
-        cards:[
-          {h:'Automatización operativa', p:'Flujos n8n entre CRM, correo, WhatsApp, Sheets, ERP. Reportes y alertas.'},
-          {h:'IA aplicada', p:'Asistentes y chatbots con contexto propio; clasificación y generación de respuestas.'},
-          {h:'Integraciones a medida', p:'APIs, webhooks y conectores custom con monitoreo y versionado.'},
-          {h:'Data & reporting', p:'Dashboards y resúmenes automáticos con métricas clave enviadas a tu equipo.'},
-          {h:'Onboarding & training', p:'Documentación, handoff y capacitaciones para equipos comerciales y operaciones.'},
-          {h:'Soporte y mantenimiento', p:'Monitoreo, alertas y mejoras continuas para asegurar disponibilidad y calidad.'}
-        ]},
-      faq:{ title:'Resuelve tus preguntas', sub:'Tenés preguntas. Tenemos respuestas.',
-        qa:[
-          {q:'¿Por qué usar Rynko?', a:'Conectamos tu stack con n8n + IA para automatizar trabajo repetitivo, reducir errores y escalar la operación.'},
-          {q:'¿Qué sistemas soportan?', a:'HubSpot, Pipedrive, Gmail, Slack, WhatsApp API/Cloud, Google Sheets, Notion, Shopify, Stripe, webhooks y más.'},
-          {q:'¿En cuánto tiempo veo resultados?', a:'Primer flujo en 7–10 días. Impacto medible hacia el día 30.'},
-          {q:'¿Seguridad y datos?', a:'Credenciales de mínimo privilegio, vaults, flujos versionados, monitoreo y alertas. Tus datos quedan en tus sistemas.'},
-          {q:'¿Modelo de trabajo y precios?', a:'Proyecto, retainer o híbrido. Reservá una llamada y cotizamos para tu caso.'},
-          {q:'¿Quién es dueño de los flows y prompts?', a:'Vos. Entregamos repo, documentación y accesos.'}
-        ]},
-      changes:{
-        title:'Qué cambia en tu día a día',
-        intro:'Pasamos de procesos manuales y dispersos a flujos automatizados, medibles y monitoreados:',
-        items:[
-          'Asignación de tickets: de manual a automática (reglas + IA).',
-          'Reportes: de semanales a diarios 08:00 con insights.',
-          'Captura y seguimiento: unificados en CRM con follow-up.',
-          'Respuestas: de copiar/pegar a draft con IA + validación.',
-          'Errores: de descubiertos tarde a alertas en tiempo real.',
-          'Integraciones: de ad-hoc a flujos versionados y monitoreados.'
-        ]
-      }
+    es: {
+      meta: {
+        title: "Rynko — Ritmo. Pensar. Automatizar.",
+        desc: "Automatización + IA con n8n para empresas. Rynko: Ritmo. Pensar. Automatizar.",
+      },
+      nav: { solutions: "Soluciones", about: "About", faq: "FAQ", contact: "Contacto", book: "Reservar reunión" },
+      hero: {
+        sub:
+          "Automatizamos procesos con n8n + IA para ahorrar tiempo, reducir errores y escalar tu operación. Integraciones limpias, resultados medibles y mantenimiento sencillo.",
+        cta: "Reservar reunión",
+      },
+      about: {
+        titlePrefix: "Somos",
+        rotowords: "Rynko;constructores;automatizadores;diseñadores;ingenieros;makers",
+        lead:
+          "Un estudio boutique de automatización + IA. Combinamos ingeniería y diseño para construir sistemas que piensan y fluyen.",
+        pills: ["Expertos en n8n", "Asistentes IA & retrieval", "Dashboards & alertas", "Flujos versionados", "Security by design"],
+      },
+      solutions: {
+        title: "Soluciones",
+        sub: "Descubrí cómo conectamos tus herramientas con n8n + IA para ganar velocidad y control.",
+        cards: [
+          { h: "Automatización operativa", p: "Flujos n8n entre CRM, correo, WhatsApp, Sheets, ERP. Reportes y alertas." },
+          { h: "IA aplicada", p: "Asistentes y chatbots con contexto propio; clasificación y generación de respuestas." },
+          { h: "Integraciones a medida", p: "APIs, webhooks y conectores custom con monitoreo y versionado." },
+          { h: "Data & reporting", p: "Dashboards y resúmenes automáticos con métricas clave enviadas a tu equipo." },
+          { h: "Onboarding & training", p: "Documentación, handoff y capacitaciones para equipos comerciales y operaciones." },
+          { h: "Soporte y mantenimiento", p: "Monitoreo, alertas y mejoras continuas para asegurar disponibilidad y calidad." },
+        ],
+      },
+      changes: {
+        title: "Qué cambia en tu día a día",
+        intro: "Pasamos de procesos manuales y dispersos a flujos automatizados, medibles y monitoreados:",
+        items: [
+          "Asignación de tickets: de manual a automática (reglas + IA).",
+          "Reportes: de semanales a diarios 08:00 con insights.",
+          "Captura y seguimiento: unificados en CRM con follow-up.",
+          "Respuestas: de copiar/pegar a draft con IA + validación.",
+          "Errores: de descubiertos tarde a alertas en tiempo real.",
+          "Integraciones: de ad-hoc a flujos versionados y monitoreados.",
+        ],
+      },
+      faq: {
+        kicker: "Preguntas frecuentes",
+        title: "Resuelve tus preguntas",
+        sub: "Tenés preguntas. Tenemos respuestas",
+        qa: [
+          { q: "¿Por qué usar Rynko?", a: "Conectamos tu stack con n8n + IA para automatizar trabajo repetitivo, reducir errores y escalar la operación." },
+          { q: "¿Qué sistemas soportan?", a: "HubSpot, Pipedrive, Gmail, Slack, WhatsApp API/Cloud, Google Sheets, Notion, Shopify, Stripe, webhooks y más." },
+          { q: "¿En cuánto tiempo veo resultados?", a: "Primer flujo en 7–10 días. Impacto medible hacia el día 30." },
+          { q: "¿Seguridad y datos?", a: "Credenciales de mínimo privilegio, vaults, flujos versionados, monitoreo y alertas. Tus datos quedan en tus sistemas." },
+          { q: "¿Modelo de trabajo y precios?", a: "Proyecto, retainer o híbrido. Reservá una llamada y cotizamos para tu caso." },
+          { q: "¿Quién es dueño de los flows y prompts?", a: "Vos. Entregamos repo, documentación y accesos." },
+        ],
+      },
+      kpis: ["% menos tareas manuales", "% más velocidad de respuesta", "% procesos monitoreados", "/7 alertas y reportes"],
+      footer: "© {year} Rynko — Automatización & IA",
     },
-    en:{
-      solutions:{ title:'Solutions',
-        sub:'See how we connect your tools with n8n + AI to gain speed and control.',
-        cards:[
-          {h:'Operational automation', p:'n8n flows across CRM, email, WhatsApp, Sheets, ERP. Reports and alerts.'},
-          {h:'Applied AI', p:'Assistants & chatbots with your context; classification and answer generation.'},
-          {h:'Custom integrations', p:'APIs, webhooks & custom connectors with monitoring and versioning.'},
-          {h:'Data & reporting', p:'Dashboards and summaries with key metrics sent to your team.'},
-          {h:'Onboarding & training', p:'Docs, handoff and training for sales and operations teams.'},
-          {h:'Support & maintenance', p:'Monitoring, alerts and continuous improvements for availability and quality.'}
-        ]},
-      faq:{ title:'Answer your questions', sub:'You’ve got questions. We’ve got answers',
-        qa:[
-          {q:'Why you should use Rynko?', a:'We connect your stack with n8n + AI to automate repetitive work, reduce errors and scale ops.'},
-          {q:'Which systems do you support?', a:'HubSpot, Pipedrive, Gmail, Slack, WhatsApp API/Cloud, Google Sheets, Notion, Shopify, Stripe, webhooks & more.'},
-          {q:'How long until results?', a:'First flow in 7–10 days. Measurable impact by day 30.'},
-          {q:'Security & data?', a:'Least-privilege creds, secret vaults, versioned flows, monitoring & alerts. Your data stays in your systems.'},
-          {q:'Engagement model & pricing?', a:'Project, retainer or hybrid. Book a call and we’ll tailor a quote to your case.'},
-          {q:'Who owns flows and prompts?', a:'You do. We hand over repo, docs and access.'}
-        ]},
-      changes:{
-        title:'What changes in your day-to-day',
-        intro:'We move from manual, scattered work to automated, measurable, monitored flows:',
-        items:[
-          'Ticket assignment: manual → automatic (rules + AI).',
-          'Reporting: weekly → daily 08:00 with insights.',
-          'Capture & follow-up: unified in CRM.',
-          'Replies: copy/paste → AI draft + validation.',
-          'Errors: found late → real-time alerts.',
-          'Integrations: ad-hoc → versioned & monitored flows.'
-        ]
-      }
-    }
+    en: {
+      meta: {
+        title: "Rynko — Rhythm. Think. Automate.",
+        desc: "Automation + AI with n8n for companies. Rynko: Rhythm. Think. Automate.",
+      },
+      nav: { solutions: "Solutions", about: "About", faq: "FAQ", contact: "Contact", book: "Book a call" },
+      hero: {
+        sub:
+          "We automate processes with n8n + AI to save time, reduce errors and scale your operation. Clean integrations, measurable results and simple maintenance.",
+        cta: "Book a call",
+      },
+      about: {
+        titlePrefix: "We are",
+        rotowords: "Rynko;builders;automators;designers;engineers;makers",
+        lead:
+          "A boutique Automation + AI studio. We combine engineering and design to build systems that think and flow.",
+        pills: ["n8n experts", "AI assistants & retrieval", "Dashboards & alerts", "Versioned flows", "Security by design"],
+      },
+      solutions: {
+        title: "Solutions",
+        sub: "See how we connect your tools with n8n + AI to gain speed and control.",
+        cards: [
+          { h: "Operational automation", p: "n8n flows across CRM, email, WhatsApp, Sheets, ERP. Reports and alerts." },
+          { h: "Applied AI", p: "Assistants & chatbots with your context; classification and answer generation." },
+          { h: "Custom integrations", p: "APIs, webhooks & custom connectors with monitoring and versioning." },
+          { h: "Data & reporting", p: "Dashboards and summaries with key metrics sent to your team." },
+          { h: "Onboarding & training", p: "Docs, handoff and training for sales and operations teams." },
+          { h: "Support & maintenance", p: "Monitoring, alerts and continuous improvements for availability and quality." },
+        ],
+      },
+      changes: {
+        title: "What changes in your day-to-day",
+        intro: "We move from manual, scattered work to automated, measurable, monitored flows:",
+        items: [
+          "Ticket assignment: manual → automatic (rules + AI).",
+          "Reporting: weekly → daily 08:00 with insights.",
+          "Capture & follow-up: unified in CRM.",
+          "Replies: copy/paste → AI draft + validation.",
+          "Errors: found late → real-time alerts.",
+          "Integrations: ad-hoc → versioned & monitored flows.",
+        ],
+      },
+      faq: {
+        kicker: "Frequently Asked Questions",
+        title: "Answer your questions",
+        sub: "You’ve got questions. We’ve got answers",
+        qa: [
+          { q: "Why you should use Rynko?", a: "We connect your stack with n8n + AI to automate repetitive work, reduce errors and scale ops." },
+          { q: "Which systems do you support?", a: "HubSpot, Pipedrive, Gmail, Slack, WhatsApp API/Cloud, Google Sheets, Notion, Shopify, Stripe, webhooks & more." },
+          { q: "How long until results?", a: "First flow in 7–10 days. Measurable impact by day 30." },
+          { q: "Security & data?", a: "Least-privilege creds, secret vaults, versioned flows, monitoring & alerts. Your data stays in your systems." },
+          { q: "Engagement model & pricing?", a: "Project, retainer or hybrid. Book a call and we’ll tailor a quote to your case." },
+          { q: "Who owns flows and prompts?", a: "You do. We hand over repo, docs and access." },
+        ],
+      },
+      kpis: ["% fewer manual tasks", "% faster response", "% processes monitored", "/7 alerts & reports"],
+      footer: "© {year} Rynko — Automation & AI",
+    },
   };
 
-  // ---- Helpers ----
-  const $  = (s, r=document)=>r.querySelector(s);
-  const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
-  const setText = (el, t)=>{ if(el) el.textContent = t; };
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const T = (el, t) => el && (el.textContent = t);
 
-  function getLang(){
-    const l = (localStorage.getItem('lang') || document.documentElement.lang || 'es').toLowerCase();
-    return (l==='en' || l==='es') ? l : 'es';
+  function getLang() {
+    const l = (localStorage.getItem("lang") || document.documentElement.lang || "es").toLowerCase();
+    return l === "en" ? "en" : "es";
   }
-  function setLang(l){
-    const lang = (l==='en'?'en':'es');
-    localStorage.setItem('lang', lang);
-    document.documentElement.setAttribute('lang', lang);
-    document.dispatchEvent(new CustomEvent('rynko:setlang', { detail: lang }));
+  function setLang(l) {
+    const lang = l === "en" ? "en" : "es";
+    localStorage.setItem("lang", lang);
+    document.documentElement.setAttribute("lang", lang);
+    document.dispatchEvent(new CustomEvent("rynko:setlang", { detail: lang }));
   }
 
-  // ---- Traducciones ----
-  function trSolutions(lang){
-    const d = TEXT[lang].solutions;
-    const sec = $('.strip.solutions'); if(!sec) return;
-    setText($('h2', sec), d.title);
-    setText($('.sub', sec), d.sub);
-    $$('.cards.six article', sec).forEach((card,i)=>{
-      const meta = d.cards[i]; if(!meta) return;
-      setText($('h3', card), meta.h);
-      setText($('p', card),  meta.p);
-    });
+  // --- NAV ---
+  function trNav(lang) {
+    const d = TEXT[lang].nav;
+    $$('nav .menu a[href="#solutions"]').forEach((a) => T(a, d.solutions));
+    $$('nav .menu a[href="#about"]').forEach((a) => T(a, d.about));
+    $$('nav .menu a[href="#faq"]').forEach((a) => T(a, d.faq));
+    $$('nav .actions .btn.ghost').forEach((a) => T(a, d.contact));
+    $$('nav .actions .btn.primary').forEach((a) => T(a, d.book));
   }
-  function trFAQ(lang){
-    const d = TEXT[lang].faq;
-    const root = $('#faq, .strip.faq'); if(!root) return;
-    const title = $('.section-title, .faq-title', root);
-    const sub   = $('.section-sub, .faq-sub', root);
-    setText(title, d.title);
-    setText(sub,   d.sub);
-    const items = $$('.fqi', root);
-    d.qa.forEach((qa,i)=>{
-      const di = items[i]; if(!di) return;
-      const sum = $('summary', di);
-      const chev = sum ? $('.chev', sum) : null;
-      if(sum){ sum.innerHTML = ''; sum.append(document.createTextNode(qa.q)); if(chev) sum.appendChild(chev); }
-      const ans = $('.ans', di) || $('div', di);
-      if(ans) setText(ans, qa.a);
-    });
+
+  // --- HERO ---
+  function trHero(lang) {
+    const d = TEXT[lang].hero;
+    T($(".hero-sub"), d.sub);
+    $$("header.hero .btn.primary").forEach((b) => T(b, d.cta));
   }
-  function renderChanges(lang){
-    const d = TEXT[lang].changes;
-    const about = $('#about .wrap, section.about .wrap'); if(!about) return;
 
-    // 1) Eliminar TODAS las variantes viejas globales
-    document.querySelectorAll('#cambios, .deltas.section, .deltas-grid, .deltas-list')
-      .forEach(n => n.remove());
-
-    // 2) Crear / actualizar bloque minimal único
-    let blk = about.querySelector('.changes-text');
-    if(!blk){
-      blk = document.createElement('div'); blk.className = 'changes-text';
-      const anchor = about.querySelector('.pill-list') || about.lastElementChild;
-      (anchor && anchor.parentNode) ? anchor.parentNode.insertBefore(blk, anchor.nextSibling)
-                                    : about.appendChild(blk);
+  // --- ABOUT (title prefix + rotowords + lead + pills) ---
+  function trAbout(lang) {
+    const d = TEXT[lang].about;
+    const wrap = $("#about .wrap");
+    if (!wrap) return;
+    const title = $(".about-title", wrap);
+    if (title) {
+      const span = $(".rotowords", title);
+      if (span) {
+        span.dataset.words = d.rotowords;
+        // re-aplicar texto actual (primer palabra)
+        const first = d.rotowords.split(/[;,\|]/)[0].trim();
+        span.textContent = first;
+      }
+      // "We are" / "Somos"
+      const prefixNode = title.childNodes[0];
+      if (prefixNode && prefixNode.nodeType === 3) {
+        // texto antes del span
+        title.firstChild.nodeValue = (lang === "es" ? "Somos " : "We are ");
+      }
     }
-    blk.innerHTML = '';
+    T($(".lead", wrap), d.lead);
 
-    const h = document.createElement('h3'); h.className = 'changes-title'; h.textContent = d.title;
-    const p = document.createElement('p'); p.className = 'changes-intro'; p.textContent = d.intro;
-    const ul = document.createElement('ul'); ul.className = 'changes-points';
-    d.items.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
-
-    blk.append(h,p,ul);
+    const pills = $(".pill-list", wrap);
+    if (pills) {
+      const lis = $$("li", pills);
+      d.pills.forEach((txt, i) => {
+        if (lis[i]) lis[i].textContent = txt;
+        else {
+          const li = document.createElement("li");
+          li.textContent = txt;
+          pills.appendChild(li);
+        }
+      });
+      // si había más <li> que los traducidos, recortarlos
+      if (lis.length > d.pills.length) {
+        lis.slice(d.pills.length).forEach((x) => x.remove());
+      }
+    }
   }
 
-  function applyAll(){
+  // --- SOLUTIONS ---
+  function trSolutions(lang) {
+    const d = TEXT[lang].solutions;
+    const sec = $(".strip.solutions");
+    if (!sec) return;
+    T($("h2", sec), d.title);
+    T($(".sub", sec), d.sub);
+    $$(".cards.six article", sec).forEach((card, i) => {
+      const meta = d.cards[i];
+      if (!meta) return;
+      T($("h3", card), meta.h);
+      T($("p", card), meta.p);
+    });
+  }
+
+  // --- CHANGES (único bloque, sin duplicados) ---
+  function renderChanges(lang) {
+    const d = TEXT[lang].changes;
+    const about = $("#about .wrap");
+    if (!about) return;
+
+    // eliminar variantes previas/duplicadas
+    document.querySelectorAll('#cambios, .changes, .deltas.section, .deltas-grid, .deltas-list')
+      .forEach((n) => {
+        if (!n.closest("#about")) n.remove();
+      });
+
+    let blk = about.querySelector(".changes-text");
+    if (!blk) {
+      blk = document.createElement("div");
+      blk.className = "changes-text";
+      const anchor = $(".pill-list", about) || about.lastElementChild;
+      (anchor && anchor.parentNode)
+        ? anchor.parentNode.insertBefore(blk, anchor.nextSibling)
+        : about.appendChild(blk);
+    }
+    blk.innerHTML = "";
+
+    const h = document.createElement("h3");
+    h.className = "changes-title";
+    h.textContent = d.title;
+
+    const p = document.createElement("p");
+    p.className = "changes-intro";
+    p.textContent = d.intro;
+
+    const ul = document.createElement("ul");
+    ul.className = "changes-points";
+    d.items.forEach((t) => {
+      const li = document.createElement("li");
+      li.textContent = t;
+      ul.appendChild(li);
+    });
+
+    blk.append(h, p, ul);
+  }
+
+  // --- FAQ ---
+  function trFAQ(lang) {
+    const d = TEXT[lang].faq;
+    const root = $("#faq");
+    if (!root) return;
+    const kicker = $(".section-kicker", root);
+    if (kicker) kicker.innerHTML = `<span class="dot"></span> ${d.kicker}`;
+    T($(".section-title", root), d.title);
+    T($(".section-sub", root), d.sub);
+    const items = $$(".fqi", root);
+    d.qa.forEach((qa, i) => {
+      const di = items[i];
+      if (!di) return;
+      const sum = $("summary", di);
+      const chev = sum ? $(".chev", sum) : null;
+      if (sum) {
+        sum.innerHTML = "";
+        sum.append(document.createTextNode(qa.q));
+        if (chev) sum.appendChild(chev);
+      }
+      const ans = $(".ans", di) || $("div", di);
+      if (ans) T(ans, qa.a);
+    });
+  }
+
+  // --- KPIs ---
+  function trKPIs(lang) {
+    const labels = TEXT[lang].kpis;
+    const items = $$(".kpis.mini li");
+    items.forEach((li, i) => {
+      const small = $("small", li);
+      if (small && labels[i]) small.textContent = labels[i];
+    });
+  }
+
+  // --- FOOTER ---
+  function trFooter(lang) {
+    const f = $("footer.footer p");
+    if (!f) return;
+    const tmpl = TEXT[lang].footer.replace("{year}", new Date().getFullYear());
+    f.textContent = tmpl;
+  }
+
+  // --- META (opcional) ---
+  function trMeta(lang) {
+    const m = TEXT[lang].meta;
+    if (!m) return;
+    const title = $("title");
+    if (title) title.textContent = m.title;
+    const desc = $('meta[name="description"]');
+    if (desc) desc.setAttribute("content", m.desc);
+  }
+
+  function highlightFlag(lang) {
+    $$(".lang-switch .lang-btn").forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
+  }
+
+  function applyAll() {
     const lang = getLang();
+    document.documentElement.setAttribute("lang", lang);
+    trMeta(lang);
+    trNav(lang);
+    trHero(lang);
+    trAbout(lang);
     trSolutions(lang);
-    trFAQ(lang);
     renderChanges(lang);
-    // activar visualmente la bandera
-    $$('.lang-switch .lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang===lang));
+    trFAQ(lang);
+    trKPIs(lang);
+    trFooter(lang);
+    highlightFlag(lang);
   }
 
-  // ---- Flags en navbar ----
-  document.addEventListener('click', (e)=>{
-    const btn = e.target.closest('nav .lang-switch .lang-btn'); if(!btn) return;
-    e.preventDefault(); e.stopPropagation();
+  // Flags click
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("nav .lang-switch .lang-btn");
+    if (!btn) return;
+    e.preventDefault();
     setLang(btn.dataset.lang);
   });
 
-  // Reaccionar a cambios
-  document.addEventListener('rynko:setlang', applyAll);
-
-  // Init
-  document.addEventListener('DOMContentLoaded', applyAll);
+  document.addEventListener("rynko:setlang", applyAll);
+  document.addEventListener("DOMContentLoaded", applyAll);
   applyAll();
 })();
