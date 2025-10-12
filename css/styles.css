@@ -336,3 +336,80 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
 .gridlayer, .stars { pointer-events: none; }  /* que no tapen la navbar */
 .nav { position: relative; z-index: 1000; }
 .lang-switch .lang-btn { pointer-events: auto; }
+
+/* ==== Grid base (utilizada por ambas capas) ==== */
+/* Patrón de cuadrícula sutil */
+:root{
+  --grid-cell: 80px;              /* tamaño de celda */
+  --grid-line: rgba(255,255,255,.055);
+  --grid-line2: rgba(255,255,255,.035);
+}
+
+/* Capa genérica de fondo */
+.bg{
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Patrón de cuadrícula reutilizable como background */
+.bg::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    /* resplandor muy sutil centrado arriba */
+    radial-gradient(1200px 340px at 50% -120px, rgba(255,255,255,.08), transparent 70%),
+    /* líneas verticales */
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px) 0 0/var(--grid-cell) var(--grid-cell),
+    /* líneas horizontales */
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px) 0 0/var(--grid-cell) var(--grid-cell);
+  opacity:.9;
+}
+
+/* ===== Capa 1: cuadrícula visible SOLO en el hero y desvaneciéndose ===== */
+.bg-hero{
+  z-index: -2;
+  /* máscara: visible en la parte superior y se apaga hacia 100vh */
+  -webkit-mask-image: linear-gradient(to bottom,
+      rgba(0,0,0,1) 0,
+      rgba(0,0,0,1) 60vh,
+      rgba(0,0,0,.7) 78vh,
+      rgba(0,0,0,0) 100vh);
+          mask-image: linear-gradient(to bottom,
+      rgba(0,0,0,1) 0,
+      rgba(0,0,0,1) 60vh,
+      rgba(0,0,0,.7) 78vh,
+      rgba(0,0,0,0) 100vh);
+}
+
+/* Puedes hacer la cuadrícula del hero un poco más marcada */
+.bg-hero::before{
+  filter: brightness(1) contrast(1.05);
+  opacity: 1;
+}
+
+/* ===== Capa 2: cuadrícula MUY sutil para el resto de la página ===== */
+.bg-base{
+  z-index: -3;
+  /* oculta la cuadrícula en el hero, aparece luego del pliegue */
+  -webkit-mask-image: linear-gradient(to bottom,
+      rgba(0,0,0,0) 0 70vh,
+      rgba(0,0,0,1) 100vh);
+          mask-image: linear-gradient(to bottom,
+      rgba(0,0,0,0) 0 70vh,
+      rgba(0,0,0,1) 100vh);
+}
+
+/* patrón más tenue para las secciones inferiores */
+.bg-base::before{
+  background:
+    radial-gradient(1300px 380px at 50% 10%, rgba(255,255,255,.05), transparent 70%),
+    linear-gradient(to right, var(--grid-line2) 1px, transparent 1px) 0 0/var(--grid-cell) var(--grid-cell),
+    linear-gradient(to bottom, var(--grid-line2) 1px, transparent 1px) 0 0/var(--grid-cell) var(--grid-cell);
+  opacity:.55;
+}
+
+/* Aseguramos que nada tape la navbar/interacciones */
+.gridlayer, .stars, .bg { pointer-events: none; }
