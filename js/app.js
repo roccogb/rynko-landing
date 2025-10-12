@@ -456,6 +456,38 @@ footerCols: {
     $$(".lang-switch .lang-btn").forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
   }
 
+
+  function renderFooterI18N(lang){
+  const root = document.getElementById('footer');
+  if(!root) return;
+  const d = TEXT[lang].footerCols;
+
+  // títulos de columnas
+  const mapTitles = {
+    services: root.querySelector('.ft-col[data-col="services"] .ft-title'),
+    resources: root.querySelector('.ft-col[data-col="resources"] .ft-title'),
+    legal: root.querySelector('.ft-col[data-col="legal"] .ft-title')
+  };
+  Object.entries(mapTitles).forEach(([key, el])=>{ if(el) el.textContent = d.titles[key]; });
+
+  // tagline
+  const tag = root.querySelector('.ft-brand .ft-tag');
+  if(tag) tag.textContent = d.tagline;
+
+  // links
+  root.querySelectorAll('[data-k]').forEach(a=>{
+    const k=a.getAttribute('data-k');
+    const txt=d.links[k]; if(txt) a.textContent=txt;
+  });
+
+  // línea inferior
+  const copy = root.querySelector('.ft-copy');
+  if(copy){
+    copy.textContent = d.bottom.replace('{year}', new Date().getFullYear());
+  }
+}
+
+  
   function applyAll() {
     const lang = getLang();
     document.documentElement.setAttribute("lang", lang);
@@ -468,6 +500,7 @@ footerCols: {
     trFAQ(lang);
     trKPIs(lang);
     trFooter(lang);
+    renderFooterI18N(lang);
     highlightFlag(lang);
   }
 
