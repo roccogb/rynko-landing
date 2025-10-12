@@ -33,7 +33,11 @@ addEventListener('pointermove',e=>{ mx=e.clientX/innerWidth-.5; my=e.clientY/inn
 const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function tick(){
   px+=(mx-px)*.08; py+=(my-py)*.08;
-  if(!prefersReduce && grid){ grid.style.transform=`translate3d(${px*CFG.PARALLAX}px,${py*CFG.PARALLAX}px,0)`; }
+  if(!prefersReduce){
+  // profundidad distinta para dar sensación de capas
+  if (gridHero) gridHero.style.transform = `translate3d(${px*14}px,${py*14}px,0)`;
+  if (gridBase) gridBase.style.transform = `translate3d(${px*8}px,${py*8}px,0)`;
+  }
   ctx.clearRect(0,0,W,H); ctx.save(); if(!prefersReduce) ctx.translate(-px*CFG.TRANSLATE*DPR, -py*CFG.TRANSLATE*DPR);
   ctx.fillStyle='#fff'; ctx.shadowColor='#fff'; ctx.shadowBlur=CFG.SHADOW_BLUR*DPR;
   for (const d of dots){
