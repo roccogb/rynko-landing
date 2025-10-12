@@ -503,4 +503,4 @@ document.addEventListener("DOMContentLoaded", () => {
   bindFlagClicks();
   applyAll();
 });
-
+})();
