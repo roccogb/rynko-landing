@@ -226,7 +226,46 @@ tick();
         ],
       },
       kpis: ["% fewer manual tasks", "% faster response", "% processes monitored", "/7 alerts & reports"],
-      footer: "© {year} Rynko — Automation & AI",
+      // En TEXT.es:
+footerCols: {
+  titles: { services: "Servicios", resources: "Recursos", legal: "Legal" },
+  links: {
+    "svc-ops": "Automatización operativa",
+    "svc-ai": "Asistentes IA",
+    "svc-int": "Integraciones & APIs",
+    "svc-dash": "Dashboards & reportes",
+
+    "res-faq": "Preguntas frecuentes",
+    "res-call": "Agenda una llamada",
+    "res-cases": "Casos (próximamente)",
+    "res-n8n": "Docs de n8n",
+
+    "leg-terms": "Términos",
+    "leg-privacy": "Privacidad"
+  },
+  tagline: "Ritmo. Pensar. Automatizar.",
+  bottom: "© {year} Rynko — Automatización & IA"
+},
+
+// En TEXT.en:
+footerCols: {
+  titles: { services: "Services", resources: "Resources", legal: "Legal" },
+  links: {
+    "svc-ops": "Operational automation",
+    "svc-ai": "AI assistants",
+    "svc-int": "Integrations & APIs",
+    "svc-dash": "Dashboards & reporting",
+
+    "res-faq": "Frequently Asked Questions",
+    "res-call": "Book a call",
+    "res-cases": "Case studies (soon)",
+    "res-n8n": "n8n docs",
+
+    "leg-terms": "Terms",
+    "leg-privacy": "Privacy"
+  },
+  tagline: "Rhythm. Think. Automate.",
+  bottom: "© {year} Rynko — Automation & AI"
     },
   };
 
