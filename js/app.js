@@ -3,7 +3,8 @@ const CFG = { DENSITY_DIV: 30000, R_MIN: .4, R_ADD: .6, ALPHA_MIN: .35, ALPHA_AD
   SHADOW_BLUR: 4, PARALLAX: 18, TRANSLATE: 18, TW_SPEED_MIN: .2, TW_SPEED_ADD: .2,
   DRIFT_X: .08, DRIFT_Y: .04 };
 
-document.getElementById('year').textContent = new Date().getFullYear();
+// Año (seguro si no existe el #year)
+{ const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear(); }
 
 const grid = document.getElementById('grid');
 const canvas = document.getElementById('stars');
@@ -108,7 +109,7 @@ tick();
    FAQ, KPIs, footer (único bloque, sin duplicados)
    ========================================================= */
 (function () {
-  if (window.__rynko_i18n_full) return; 
+  if (window.__rynko_i18n_full) return;
   window.__rynko_i18n_full = true;
 
   const TEXT = {
@@ -119,15 +120,13 @@ tick();
       },
       nav: { solutions: "Soluciones", about: "Nosotros", faq: "FAQ", contact: "Contacto", book: "Reservar reunión" },
       hero: {
-        sub:
-          "Automatizamos procesos con n8n + IA para ahorrar tiempo, reducir errores y escalar tu operación. Integraciones limpias, resultados medibles y mantenimiento sencillo.",
+        sub: "Automatizamos procesos con n8n + IA para ahorrar tiempo, reducir errores y escalar tu operación. Integraciones limpias, resultados medibles y mantenimiento sencillo.",
         cta: "Reservar reunión",
       },
       about: {
         titlePrefix: "Somos",
         rotowords: "Rynko;constructores;automatizadores;diseñadores;ingenieros;makers",
-        lead:
-          "Un estudio boutique de automatización + IA. Combinamos ingeniería y diseño para construir sistemas que piensan y fluyen.",
+        lead: "Un estudio boutique de automatización + IA. Combinamos ingeniería y diseño para construir sistemas que piensan y fluyen.",
         pills: ["Expertos en n8n", "Asistentes IA & retrieval", "Dashboards & alertas", "Flujos versionados", "Security by design"],
       },
       solutions: {
@@ -169,6 +168,23 @@ tick();
       },
       kpis: ["% menos tareas manuales", "% más velocidad de respuesta", "% procesos monitoreados", "/7 alertas y reportes"],
       footer: "© {year} Rynko — Automatización & IA",
+      footerCols: {
+        titles: { services: "Servicios", resources: "Recursos", legal: "Legal" },
+        links: {
+          "svc-ops": "Automatización operativa",
+          "svc-ai": "Asistentes IA",
+          "svc-int": "Integraciones & APIs",
+          "svc-dash": "Dashboards & reportes",
+          "res-faq": "Preguntas frecuentes",
+          "res-call": "Agenda una llamada",
+          "res-cases": "Casos (próximamente)",
+          "res-n8n": "Docs de n8n",
+          "leg-terms": "Términos",
+          "leg-privacy": "Privacidad"
+        },
+        tagline: "Ritmo. Pensar. Automatizar.",
+        bottom: "© {year} Rynko — Automatización & IA"
+      }
     },
     en: {
       meta: {
@@ -177,15 +193,13 @@ tick();
       },
       nav: { solutions: "Solutions", about: "About", faq: "FAQ", contact: "Contact", book: "Book a call" },
       hero: {
-        sub:
-          "We automate processes with n8n + AI to save time, reduce errors and scale your operation. Clean integrations, measurable results and simple maintenance.",
+        sub: "We automate processes with n8n + AI to save time, reduce errors and scale your operation. Clean integrations, measurable results and simple maintenance.",
         cta: "Book a call",
       },
       about: {
         titlePrefix: "We are",
         rotowords: "Rynko;builders;automators;designers;engineers;makers",
-        lead:
-          "A boutique Automation + AI studio. We combine engineering and design to build systems that think and flow.",
+        lead: "A boutique Automation + AI studio. We combine engineering and design to build systems that think and flow.",
         pills: ["n8n experts", "AI assistants & retrieval", "Dashboards & alerts", "Versioned flows", "Security by design"],
       },
       solutions: {
@@ -226,47 +240,25 @@ tick();
         ],
       },
       kpis: ["% fewer manual tasks", "% faster response", "% processes monitored", "/7 alerts & reports"],
-      // En TEXT.es:
-footerCols: {
-  titles: { services: "Servicios", resources: "Recursos", legal: "Legal" },
-  links: {
-    "svc-ops": "Automatización operativa",
-    "svc-ai": "Asistentes IA",
-    "svc-int": "Integraciones & APIs",
-    "svc-dash": "Dashboards & reportes",
-
-    "res-faq": "Preguntas frecuentes",
-    "res-call": "Agenda una llamada",
-    "res-cases": "Casos (próximamente)",
-    "res-n8n": "Docs de n8n",
-
-    "leg-terms": "Términos",
-    "leg-privacy": "Privacidad"
-  },
-  tagline: "Ritmo. Pensar. Automatizar.",
-  bottom: "© {year} Rynko — Automatización & IA"
-},
-
-// En TEXT.en:
-footerCols: {
-  titles: { services: "Services", resources: "Resources", legal: "Legal" },
-  links: {
-    "svc-ops": "Operational automation",
-    "svc-ai": "AI assistants",
-    "svc-int": "Integrations & APIs",
-    "svc-dash": "Dashboards & reporting",
-
-    "res-faq": "Frequently Asked Questions",
-    "res-call": "Book a call",
-    "res-cases": "Case studies (soon)",
-    "res-n8n": "n8n docs",
-
-    "leg-terms": "Terms",
-    "leg-privacy": "Privacy"
-  },
-  tagline: "Rhythm. Think. Automate.",
-  bottom: "© {year} Rynko — Automation & AI"
-    },
+      footer: "© {year} Rynko — Automation & AI",
+      footerCols: {
+        titles: { services: "Services", resources: "Resources", legal: "Legal" },
+        links: {
+          "svc-ops": "Operational automation",
+          "svc-ai": "AI assistants",
+          "svc-int": "Integrations & APIs",
+          "svc-dash": "Dashboards & reporting",
+          "res-faq": "Frequently Asked Questions",
+          "res-call": "Book a call",
+          "res-cases": "Case studies (soon)",
+          "res-n8n": "n8n docs",
+          "leg-terms": "Terms",
+          "leg-privacy": "Privacy"
+        },
+        tagline: "Rhythm. Think. Automate.",
+        bottom: "© {year} Rynko — Automation & AI"
+      }
+    }
   };
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -311,14 +303,11 @@ footerCols: {
       const span = $(".rotowords", title);
       if (span) {
         span.dataset.words = d.rotowords;
-        // re-aplicar texto actual (primer palabra)
         const first = d.rotowords.split(/[;,\|]/)[0].trim();
         span.textContent = first;
       }
-      // "We are" / "Somos"
       const prefixNode = title.childNodes[0];
       if (prefixNode && prefixNode.nodeType === 3) {
-        // texto antes del span
         title.firstChild.nodeValue = (lang === "es" ? "Somos " : "We are ");
       }
     }
@@ -335,7 +324,6 @@ footerCols: {
           pills.appendChild(li);
         }
       });
-      // si había más <li> que los traducidos, recortarlos
       if (lis.length > d.pills.length) {
         lis.slice(d.pills.length).forEach((x) => x.remove());
       }
@@ -363,11 +351,9 @@ footerCols: {
     const about = $("#about .wrap");
     if (!about) return;
 
-    // eliminar variantes previas/duplicadas
-    document.querySelectorAll('#cambios, .changes, .deltas.section, .deltas-grid, .deltas-list')
-      .forEach((n) => {
-        if (!n.closest("#about")) n.remove();
-      });
+    // eliminar variantes previas/duplicadas fuera de #about
+    document.querySelectorAll('#cambios, .deltas.section, .deltas-grid, .deltas-list')
+      .forEach((n) => n.remove());
 
     let blk = about.querySelector(".changes-text");
     if (!blk) {
@@ -434,60 +420,41 @@ footerCols: {
     });
   }
 
-  // --- FOOTER ---
-  function trFooter(lang) {
-    const f = $("footer.footer p");
-    if (!f) return;
-    const tmpl = TEXT[lang].footer.replace("{year}", new Date().getFullYear());
-    f.textContent = tmpl;
-  }
+  // --- FOOTER NUEVO (i18n) ---
+  function renderFooterI18N(lang){
+    const root = document.getElementById('footer');
+    if(!root) return;
+    const d = TEXT[lang].footerCols;
 
-  // --- META (opcional) ---
-  function trMeta(lang) {
-    const m = TEXT[lang].meta;
-    if (!m) return;
-    const title = $("title");
-    if (title) title.textContent = m.title;
-    const desc = $('meta[name="description"]');
-    if (desc) desc.setAttribute("content", m.desc);
+    // títulos de columnas
+    const mapTitles = {
+      services: root.querySelector('.ft-col[data-col="services"] .ft-title'),
+      resources: root.querySelector('.ft-col[data-col="resources"] .ft-title'),
+      legal: root.querySelector('.ft-col[data-col="legal"] .ft-title')
+    };
+    Object.entries(mapTitles).forEach(([key, el])=>{ if(el) el.textContent = d.titles[key]; });
+
+    // tagline
+    const tag = root.querySelector('.ft-brand .ft-tag');
+    if(tag) tag.textContent = d.tagline;
+
+    // links
+    root.querySelectorAll('[data-k]').forEach(a=>{
+      const k=a.getAttribute('data-k');
+      const txt=d.links[k]; if(txt) a.textContent=txt;
+    });
+
+    // línea inferior
+    const copy = root.querySelector('.ft-copy');
+    if(copy){
+      copy.textContent = d.bottom.replace('{year}', new Date().getFullYear());
+    }
   }
 
   function highlightFlag(lang) {
     $$(".lang-switch .lang-btn").forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
   }
 
-
-  function renderFooterI18N(lang){
-  const root = document.getElementById('footer');
-  if(!root) return;
-  const d = TEXT[lang].footerCols;
-
-  // títulos de columnas
-  const mapTitles = {
-    services: root.querySelector('.ft-col[data-col="services"] .ft-title'),
-    resources: root.querySelector('.ft-col[data-col="resources"] .ft-title'),
-    legal: root.querySelector('.ft-col[data-col="legal"] .ft-title')
-  };
-  Object.entries(mapTitles).forEach(([key, el])=>{ if(el) el.textContent = d.titles[key]; });
-
-  // tagline
-  const tag = root.querySelector('.ft-brand .ft-tag');
-  if(tag) tag.textContent = d.tagline;
-
-  // links
-  root.querySelectorAll('[data-k]').forEach(a=>{
-    const k=a.getAttribute('data-k');
-    const txt=d.links[k]; if(txt) a.textContent=txt;
-  });
-
-  // línea inferior
-  const copy = root.querySelector('.ft-copy');
-  if(copy){
-    copy.textContent = d.bottom.replace('{year}', new Date().getFullYear());
-  }
-}
-
-  
   function applyAll() {
     const lang = getLang();
     document.documentElement.setAttribute("lang", lang);
@@ -499,8 +466,7 @@ footerCols: {
     renderChanges(lang);
     trFAQ(lang);
     trKPIs(lang);
-    trFooter(lang);
-    renderFooterI18N(lang);
+    renderFooterI18N(lang); // (reemplaza al footer viejo)
     highlightFlag(lang);
   }
 
