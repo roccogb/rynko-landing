@@ -413,3 +413,5 @@ canvas.stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
 /* Aseguramos que nada tape la navbar/interacciones */
 .gridlayer, .stars, .bg { pointer-events: none; }
+
+.notranslate { unicode-bidi: plaintext; }
