@@ -288,7 +288,28 @@ tick();
     const m = TEXT[lang].meta;
     const title = $("title"); if (title) title.textContent = m.title;
     const desc = $('meta[name="description"]'); if (desc) desc.setAttribute("content", m.desc);
+    lockTitle();
   }
+
+  function lockTitle() {
+  const titleEl = document.querySelector('head > title');
+  if (!titleEl || window.__title_locked) return;
+  window.__title_locked = true;
+
+  // Guarda siempre el valor correcto según el i18n actual
+  let expected = TEXT[getLang()].meta.title;
+  titleEl.textContent = expected;
+
+  const mo = new MutationObserver(() => {
+    const lang = getLang();
+    expected = TEXT[lang].meta.title;   // refresca por si cambiaste de idioma
+    if (titleEl.textContent !== expected) {
+      titleEl.textContent = expected;   // restaura si algún traductor lo tocó
+    }
+  });
+  mo.observe(titleEl, { childList: true, characterData: true, subtree: true });
+}
+
 
   function trNav(lang) {
     const d = TEXT[lang].nav;
