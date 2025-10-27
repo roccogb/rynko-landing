@@ -415,6 +415,10 @@ tick();
     const tag = root.querySelector('.ft-brand .ft-tag'); if(tag) tag.textContent = d.tagline;
     root.querySelectorAll('[data-k]').forEach(a=>{ const k=a.getAttribute('data-k'); const txt=d.links[k]; if(txt) a.textContent=txt; });
     const copy = root.querySelector('.ft-copy'); if(copy) copy.textContent = d.bottom.replace('{year}', new Date().getFullYear());
+    tag.textContent = d.tagline;
+    tag.setAttribute('translate', 'no');      
+    tag.classList.add('notranslate');        
+    tag.setAttribute('lang', lang);          
   }
 
   // --- UI helpers ---
