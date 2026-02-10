@@ -126,7 +126,7 @@ tick();
       },
       nav: { solutions: "Soluciones", about: "Nosotros", faq: "FAQ", contact: "Contacto", book: "Reservar reunión" },
       hero: {
-        sub: "Automatizamos procesos con n8n + IA para ahorrar tiempo, reducir errores y escalar tu operación. Integraciones limpias, resultados medibles y mantenimiento sencillo.",
+        sub: "Diseñamos agentes IA y automatizaciones inteligentes que optimizan procesos, reducen errores y escalan tu operación sin aumentar costos. Integraciones robustas, resultados medibles y mantenimiento simple.",
         cta: "Reservar reunión",
       },
       about: {
@@ -198,7 +198,7 @@ tick();
       },
       nav: { solutions: "Solutions", about: "About", faq: "FAQ", contact: "Contact", book: "Book a call" },
       hero: {
-        sub: "We automate processes with n8n + AI to save time, reduce errors and scale your operation. Clean integrations, measurable results and simple maintenance.",
+        sub: "We design AI agents and intelligent automations that optimize processes, reduce errors, and scale your operations without increasing costs. Robust integrations, measurable results, and simple maintenance.",
         cta: "Book a call",
       },
       about: {
